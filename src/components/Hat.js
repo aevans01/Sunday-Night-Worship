@@ -1,12 +1,15 @@
 import React from 'react';
 
 
-function Hat(){
+function Hat() {
     console.log(`Added song to the "hat"`)
-    return(
-    <div>Added song to the "Hat"</div>
+    return (
+        <div>
+            <div>Song Added To List!</div>
+            <div><a href='/'>Click here to return to Home Page</a></div>
+        </div>
     )
-    
+
 }
 
 export default Hat;
