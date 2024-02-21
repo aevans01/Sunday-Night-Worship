@@ -7,7 +7,7 @@ import { Alert } from 'bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 const CustomWheel = (wheelData) =>{
-    const data = wheelData;
+    const [data, setData] = useState(wheelData);
     const [Winner, setWinner] = useState();
     const[WinnerURL,setWinnerURL] = useState();
     const [List, setList] = useState([]);
@@ -17,28 +17,24 @@ const CustomWheel = (wheelData) =>{
     const [refresh,setRefresh] = useState(0);
 
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+    }
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-
-        fetchList();
-        loadData();
-    }, [loading]);  
-    const fetchList =  () => {
         Axios.get(`http://192.168.1.149:3001/getVids`)
             .then((response) => {
                 if(response.data){
-                    data.pop();
-                    data.pop();
-                    data.pop();
-                    data.pop();
-                    data.pop();
-                    data.pop();
                     setList(response.data)
-                    response.data.forEach((element) => {
-                        data.push({option: element.VideoTitleShortened});
+                    
+                    wheelData = response.data.map((item) => {
+                        return{
+                            option: item.VideoTitleShortened
+                        }
                     })
+                    console.log(wheelData);
+                    setData(wheelData);
                     console.log(data);
                 }
                 
@@ -47,7 +43,12 @@ const CustomWheel = (wheelData) =>{
             .catch(err => {
                 console.log(err);
                 setLoading(false);
-              });;
+              });
+              
+        loadData();
+    }, [wheelData]);  
+    const fetchList =  () => {
+        
     };
 
     function loadData(){
@@ -73,20 +74,22 @@ const CustomWheel = (wheelData) =>{
         }
     }
     function refreshWheel(){
+        console.log(data);
         //setLoading(true);
          //loadData();
          setLoading(false);
          //setRefresh(refresh+1);
     }
 
-return(<>
+return(<div className='background'>
 <button onClick={refreshWheel}>Load Wheel</button>
     {loading ? (<p>Loading...</p>) :
     
-             (<><Wheel
+             (<div className='wheel'><Wheel
                 mustStartSpinning={mustSpin}
                 prizeNumber={prizeNumber}
                 data={data}
+                backgroundColors={['red','purple','yellow','blue','green']}
                 onStopSpinning={() => {
                     console.log("WINNER: " + List[prizeNumber].VideoSource);
                     setMustSpin(false);
@@ -94,6 +97,7 @@ return(<>
                     console.log(Winner);
                     setWinnerURL(List[prizeNumber].VideoSource)
                     handleShow();
+                    data.splice(prizeNumber,prizeNumber);
                     //alert("WINNER: " + List[prizeNumber].VideoTitle +" Link: " +List[prizeNumber].VideoSource);
                 }} 
             />
@@ -102,7 +106,7 @@ return(<>
         <Modal.Header closeButton>
           <Modal.Title>{Winner}</Modal.Title>
         </Modal.Header>
-        <Modal.Body><a href={WinnerURL}>{WinnerURL}</a></Modal.Body>
+        <Modal.Body><div className='modalImg'><a href={WinnerURL}><img src={List[prizeNumber].VideoImage}/></a></div></Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
@@ -112,9 +116,10 @@ return(<>
           </Button>
         </Modal.Footer>
       </Modal>
-            </>)
+            </div>)
             }
-            </>
+            </div>
+            
 )
 }
 export default CustomWheel;
