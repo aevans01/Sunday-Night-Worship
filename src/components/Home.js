@@ -30,7 +30,7 @@ class Home extends React.Component {
 
     render() {
         return (
-
+            
             <div className='ui container' style={{ marginTop: '1em' }}>
                 <SearchBar handleFormSubmit={this.handleSubmit} />
                 <div className='reminder'>Make sure it has lyrics!!</div>

@@ -21,7 +21,8 @@ function SongSelector() {
 
 
     return (
-        <CustomWheel/>
+        <CustomWheel
+            wheelData = {[{option: "test"}]}/>
     )
 }
 

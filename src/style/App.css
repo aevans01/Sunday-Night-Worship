@@ -1,0 +1,30 @@
+.body{
+  height: 100%;
+}
+.container{
+  width: 100%;
+  margin-left: auto;
+}
+.search-bar{
+  font-size: 20px;
+}
+.reminder{
+  font-size: 25px;	
+  animation-name:blink;
+  width:280px;
+  animation-duration:2s;
+  animation-timing-function:ease-in;
+  animation-iteration-count:Infinite;
+  }
+
+@keyframes blink{
+  0%{color:red;}
+  50%{color:white;}
+  100%{color:red;}
+}
+.background{
+  background-image: url("C:\\Users\\callo\\OneDrive\\Desktop\\Websites\\sundaynight\\Sunday-Night-Worship\\src\\images\\worshiped.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
+}
