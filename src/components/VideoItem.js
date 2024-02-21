@@ -12,6 +12,7 @@ const VideoItem = ({ video, handleVideoSelect }) => {
             Axios.post(`http://192.168.1.149:3001/insertVids`, {
                 VideoSource: video.id.videoId,
                 VideoTitle: video.snippet.title,
+                VideoTitleShortened: video.snippet.title,
                 VideoDescription: video.snippet.description,
                 VideoImage: video.snippet.thumbnails.medium.url,
 
