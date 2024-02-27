@@ -33,38 +33,17 @@ const CustomWheel = (wheelData) =>{
                             option: item.VideoTitleShortened
                         }
                     })
-                    console.log(wheelData);
                     setData(wheelData);
-                    console.log(data);
                 }
-                
-                //setLoading(false);
             })
             .catch(err => {
                 console.log(err);
                 setLoading(false);
               });
-              
-        loadData();
     }, [wheelData]);  
     const fetchList =  () => {
         
     };
-
-    function loadData(){
-        // console.log(List);
-        // data.pop();
-        // console.log("before ForEach: ");
-        // console.log(data);
-        // List.forEach((element) => {
-        //     data.forEach((item) => {
-        //         item.option = element.VideoTitleShortened;
-        //     })
-            
-        // })
-        
-        // console.log(data);
-    }
     
     const handleSpinClick = () => {
         if (!mustSpin) {
@@ -74,11 +53,7 @@ const CustomWheel = (wheelData) =>{
         }
     }
     function refreshWheel(){
-        console.log(data);
-        //setLoading(true);
-         //loadData();
          setLoading(false);
-         //setRefresh(refresh+1);
     }
 
 return(<div className='background'>
@@ -91,14 +66,11 @@ return(<div className='background'>
                 data={data}
                 backgroundColors={['red','purple','yellow','blue','green']}
                 onStopSpinning={() => {
-                    console.log("WINNER: " + List[prizeNumber].VideoSource);
                     setMustSpin(false);
                     setWinner(List[prizeNumber].VideoTitle)
-                    console.log(Winner);
                     setWinnerURL(List[prizeNumber].VideoSource)
                     handleShow();
                     data.splice(prizeNumber,prizeNumber);
-                    //alert("WINNER: " + List[prizeNumber].VideoTitle +" Link: " +List[prizeNumber].VideoSource);
                 }} 
             />
             <button onClick={handleSpinClick}>SPIN</button> 
