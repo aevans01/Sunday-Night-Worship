@@ -1,9 +1,10 @@
 .body{
   height: 100%;
 }
-.container{
+.container, .hat{
   width: 100%;
   margin-left: auto;
+  color: white;
 }
 .search-bar{
   font-size: 20px;
@@ -26,5 +27,9 @@
   background-image: url("C:\\Users\\callo\\OneDrive\\Desktop\\Websites\\sundaynight\\Sunday-Night-Worship\\src\\images\\worshiped.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
-
+  height: 100%
+}
+html, body, #app, #app>div {
+  height: 100%;
+  background-color: black;
 }
