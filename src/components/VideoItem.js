@@ -18,7 +18,7 @@ const VideoItem = ({ video, handleVideoSelect }) => {
 
     return (
         <div onClick={() => {
-            Axios.post(`http://192.168.1.149:3001/insertVids`, {
+            Axios.post(`/insertVids`, {
                 VideoSource: video.id.videoId,
                 VideoTitle: video.snippet.title,
                 VideoTitleShortened: video.snippet.title,

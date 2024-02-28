@@ -9,8 +9,7 @@ class Home extends React.Component {
 
     state = {
         videos: [],
-        selectedVideo: null,
-        ipAddr: 'https://192.168.1.149:3001'
+        selectedVideo: null
     }
     handleSubmit = async (termFromSearchBar) => {
         const response = await youtube.get('/search', {
