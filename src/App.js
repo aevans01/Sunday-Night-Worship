@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import SongSelector from './components/SongSelector';
 import AdminError from './components/AdminError'
 import AdminLogin from './components/AdminLogin';
-import Suggestion from './components/suggestion';
+import Suggestion from './components/Suggestion';
 
 class App extends React.Component {
 
