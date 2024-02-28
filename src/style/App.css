@@ -1,34 +1,48 @@
-.body{
+.body {
   height: 100%;
 }
-.container, .hat{
+
+.container,
+.hat {
   width: 100%;
   margin-left: auto;
   color: white;
 }
-.search-bar{
+
+.search-bar {
   font-size: 20px;
 }
-.reminder{
-  font-size: 25px;	
-  animation-name:blink;
-  width:280px;
-  animation-duration:2s;
-  animation-timing-function:ease-in;
-  animation-iteration-count:Infinite;
+
+.reminder {
+  font-size: 25px;
+  animation-name: blink;
+  width: 280px;
+  animation-duration: 2s;
+  animation-timing-function: ease-in;
+  animation-iteration-count: Infinite;
+}
+
+@keyframes blink {
+  0% {
+    color: red;
   }
 
-@keyframes blink{
-  0%{color:red;}
-  50%{color:white;}
-  100%{color:red;}
+  50% {
+    color: white;
+  }
+
+  100% {
+    color: red;
+  }
 }
-.background{
-  background-image: url("C:\\Users\\callo\\OneDrive\\Desktop\\Websites\\sundaynight\\Sunday-Night-Worship\\src\\images\\worshiped.jpg");
+
+.background {
+  background-image: url("../images/worshiped.jpg");
   background-repeat: no-repeat;
   background-size: 100% 100%;
   height: 100%
 }
+
 #modalTitle{
   margin: auto;
 }
