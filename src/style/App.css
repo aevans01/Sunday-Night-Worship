@@ -43,6 +43,10 @@
   height: 100%
 }
 
+#modalTitle{
+  margin: auto;
+}
+
 html,
 body,
 #app,

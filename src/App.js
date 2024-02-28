@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import SongSelector from './components/SongSelector';
 import AdminError from './components/AdminError'
 import AdminLogin from './components/AdminLogin';
+import Suggestion from './components/suggestion';
 
 class App extends React.Component {
 
@@ -17,7 +18,7 @@ class App extends React.Component {
             <div>
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/Hat" element={<Hat />} />
+                    <Route path="/Suggestions" element={<Suggestion />} />
                     <Route path="/SongSelector" element={<SongSelector />} />
                     <Route path='Login-Admin' element={<AdminLogin/>}/>
                     <Route path="*" element={<AdminError/>}/>

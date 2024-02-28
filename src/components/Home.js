@@ -34,6 +34,7 @@ class Home extends React.Component {
             <div className='ui container' style={{ marginTop: '1em' }}>
                 <SearchBar handleFormSubmit={this.handleSubmit} />
                 <div className='reminder'>Make sure it has lyrics!!</div>
+                <div className='suggestions'><a href=''>Have a suggestion to make this better?</a></div>
                 <div className='ui grid'>
                     <div className="ui row">
                         <div className="eleven wide column">

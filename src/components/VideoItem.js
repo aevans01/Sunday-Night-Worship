@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../style/video.css';
+import redX from "../images/redX.png"
+import check from "../images/Check.png"
 import Hat from './Hat';
 import Axios from 'axios';
-
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const VideoItem = ({ video, handleVideoSelect }) => {
     const navigate = useNavigate();
+    const [show, setShow] = useState(false);
+    const handleClose = () => {setShow(false);navigate("/");window.location.reload();}
+    const handleShow = () => setShow(true);
+    const [modalText,setModalText] = useState("");
+    const [modalImg,setModalImg] = useState("");
+
     return (
         <div onClick={() => {
             Axios.post(`http://192.168.1.149:3001/insertVids`, {
@@ -17,7 +26,15 @@ const VideoItem = ({ video, handleVideoSelect }) => {
                 VideoImage: video.snippet.thumbnails.medium.url,
 
             }).then((results) => {
-                { navigate("./Hat") }
+                //{ navigate("./Hat") }
+                handleShow();
+                if(results.data){
+                    setModalText("Song Added Click Close To Return Home");
+                    setModalImg(check);
+                }else{
+                    setModalText("ERROR Could Not Add Song. Please Try Again In A Minute.");
+                    setModalImg(redX);
+                }
             })
         }
         }
@@ -26,6 +43,17 @@ const VideoItem = ({ video, handleVideoSelect }) => {
             <div className='content'>
                 <div className='header '>{video.snippet.title}</div>
             </div>
+            <Modal centered show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title id='modalTitle'>{video.snippet.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body id='modalTitle'><div className='modalImg'><p>{modalText}</p><img src={modalImg}/></div></Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
         </div>
     )
 };
