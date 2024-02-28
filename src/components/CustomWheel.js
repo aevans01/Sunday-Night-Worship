@@ -23,7 +23,7 @@ const CustomWheel = (wheelData) =>{
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        Axios.get(`http://192.168.1.149:3001/getVids`)
+        Axios.get(`/getVids`)
             .then((response) => {
                 if(response.data){
                     setList(response.data)
