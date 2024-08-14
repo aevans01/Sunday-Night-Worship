@@ -23,7 +23,7 @@ const CustomWheel = (wheelData) => {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        Axios.get(`/https://hhbc-snw-api.netlify.app/api/getSongs`)
+        Axios.get(`https://hhbc-snw-api.netlify.app/api/getSongs`)
             .then((response) => {
                 if (response.data) {
                     setList(response.data)
