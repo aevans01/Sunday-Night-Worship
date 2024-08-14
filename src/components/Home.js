@@ -3,6 +3,7 @@ import SearchBar from './SearchBar';
 import youtube from '../youtube';
 import VideoList from './VideoList';
 import VideoDetail from './VideoDetail';
+import Button from 'react-bootstrap/Button'
 import { useNavigate } from "react-router-dom";
 
 class Home extends React.Component {
@@ -31,9 +32,9 @@ class Home extends React.Component {
         return (
             
             <div className='ui container' style={{ marginTop: '1em' }}>
+                {/* <Button href='/Login-Admin'id='login'>Log in</Button> */}
                 <SearchBar handleFormSubmit={this.handleSubmit} />
                 <div className='reminder'>Make sure it has lyrics!!</div>
-                <div className='suggestions'><a href=''>Have a suggestion to make this better?</a></div>
                 <div className='ui grid'>
                     <div className="ui row">
                         <div className="eleven wide column">
@@ -44,6 +45,7 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Button href='/SongSelector'></Button>
             </div>
         )
     }

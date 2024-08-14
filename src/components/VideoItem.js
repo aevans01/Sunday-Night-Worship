@@ -18,7 +18,7 @@ const VideoItem = ({ video, handleVideoSelect }) => {
 
     return (
         <div onClick={() => {
-            Axios.post(`/insertVids`, {
+            Axios.post(`http://localhost:3001/addSongs`, {
                 VideoSource: video.id.videoId,
                 VideoTitle: video.snippet.title,
                 VideoTitleShortened: video.snippet.title,
@@ -26,6 +26,7 @@ const VideoItem = ({ video, handleVideoSelect }) => {
                 VideoImage: video.snippet.thumbnails.medium.url,
 
             }).then((results) => {
+                console.log("why isn't modal working????");
                 //{ navigate("./Hat") }
                 handleShow();
                 if(results.data){

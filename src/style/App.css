@@ -54,3 +54,14 @@ body,
   height: 100%;
   background-color: black;
 }
+#login{
+  float: right;
+}
+.LoginForm{
+  color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}

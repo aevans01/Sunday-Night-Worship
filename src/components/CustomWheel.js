@@ -23,7 +23,7 @@ const CustomWheel = (wheelData) =>{
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        Axios.get(`/getVids`)
+        Axios.get(`http://localhost:3001/getSongs`)
             .then((response) => {
                 if(response.data){
                     setList(response.data)
@@ -70,7 +70,7 @@ return(<div className='background'>
                     setWinner(List[prizeNumber].VideoTitle)
                     setWinnerURL(List[prizeNumber].VideoSource)
                     handleShow();
-                    data.splice(prizeNumber,prizeNumber);
+                    data.splice(prizeNumber,1);
                 }} 
             />
             <button onClick={handleSpinClick}>SPIN</button> 
@@ -82,9 +82,6 @@ return(<div className='background'>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
