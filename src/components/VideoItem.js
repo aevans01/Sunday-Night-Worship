@@ -11,14 +11,14 @@ import Modal from 'react-bootstrap/Modal';
 const VideoItem = ({ video, handleVideoSelect }) => {
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
-    const handleClose = () => {setShow(false);navigate("/");window.location.reload();}
+    const handleClose = () => { setShow(false); navigate("/"); window.location.reload(); }
     const handleShow = () => setShow(true);
-    const [modalText,setModalText] = useState("");
-    const [modalImg,setModalImg] = useState("");
+    const [modalText, setModalText] = useState("");
+    const [modalImg, setModalImg] = useState("");
 
     return (
         <div onClick={() => {
-            Axios.post(`http://localhost:3001/addSongs`, {
+            Axios.post(`https://hhbc-snw-api.netlify.app/api/addSongs`, {
                 VideoSource: video.id.videoId,
                 VideoTitle: video.snippet.title,
                 VideoTitleShortened: video.snippet.title,
@@ -26,13 +26,12 @@ const VideoItem = ({ video, handleVideoSelect }) => {
                 VideoImage: video.snippet.thumbnails.medium.url,
 
             }).then((results) => {
-                console.log("why isn't modal working????");
                 //{ navigate("./Hat") }
                 handleShow();
-                if(results.data){
+                if (results.data) {
                     setModalText("Song Added Click Close To Return Home");
                     setModalImg(check);
-                }else{
+                } else {
                     setModalText("ERROR Could Not Add Song. Please Try Again In A Minute.");
                     setModalImg(redX);
                 }
@@ -45,16 +44,16 @@ const VideoItem = ({ video, handleVideoSelect }) => {
                 <div className='header '>{video.snippet.title}</div>
             </div>
             <Modal centered show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title id='modalTitle'>{video.snippet.title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body id='modalTitle'><div className='modalImg'><p>{modalText}</p><img src={modalImg}/></div></Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+                <Modal.Header closeButton>
+                    <Modal.Title id='modalTitle'>{video.snippet.title}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body id='modalTitle'><div className='modalImg'><p>{modalText}</p><img src={modalImg} /></div></Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 };
