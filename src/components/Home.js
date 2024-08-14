@@ -45,7 +45,6 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </div>
-                <Button href='/SongSelector'></Button>
             </div>
         )
     }
