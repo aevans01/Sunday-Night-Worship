@@ -17,7 +17,8 @@ const VideoItem = ({ video, handleVideoSelect }) => {
     const [modalImg, setModalImg] = useState("");
 
     return (
-        <div onClick={() => {
+        <div onClick={(e) => {
+            e.preventDefault();
             Axios.post(`https://hhbc-snw-api.netlify.app/api/addSongs`, {
                 VideoSource: video.id.videoId,
                 VideoTitle: video.snippet.title,
@@ -26,7 +27,6 @@ const VideoItem = ({ video, handleVideoSelect }) => {
                 VideoImage: video.snippet.thumbnails.medium.url,
 
             }).then((results) => {
-                //{ navigate("./Hat") }
                 handleShow();
                 if (results.data) {
                     setModalText("Song Added Click Close To Return Home");
