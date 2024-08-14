@@ -11,7 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 const VideoItem = ({ video, handleVideoSelect }) => {
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
-    const handleClose = (e) => {e.preventDefault(); setShow(false); navigate("/"); }
+    const handleClose = () => { setShow(false); navigate("/"); }
     const handleShow = () => setShow(true);
     const [modalText, setModalText] = useState("");
     const [modalImg, setModalImg] = useState("");
