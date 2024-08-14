@@ -78,7 +78,7 @@ const CustomWheel = (wheelData) => {
                     <Modal.Header closeButton>
                         <Modal.Title>{Winner}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body><div className='modalImg'><a href={WinnerURL}><img src={List[prizeNumber].VideoImage} /></a></div></Modal.Body>
+                    <Modal.Body><div className='modalImg'><a href={"https://www.youtube.com/watch?v="+WinnerURL}><img src={List[prizeNumber].VideoImage} /></a></div></Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Close
