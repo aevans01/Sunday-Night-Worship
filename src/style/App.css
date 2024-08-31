@@ -43,7 +43,7 @@
   height: 100%
 }
 
-#modalTitle{
+#modalTitle {
   margin: auto;
 }
 
@@ -54,14 +54,29 @@ body,
   height: 100%;
   background-color: black;
 }
-#login{
+
+#login {
   float: right;
 }
-.LoginForm{
+
+.LoginForm {
   color: white;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.registerForm {
+  color: white;
+  width: 70%;
+  margin: auto;
+}
+
+.greyBox {
+  background-color: grey;
+  width: 50%;
+  margin: auto;
+  margin-top: 25px;
 }
