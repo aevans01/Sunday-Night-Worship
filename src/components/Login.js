@@ -13,16 +13,23 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Replace with real authentication logic
-        if (username === 'admin' && password === 'password') {
-            login(username, 'admin');
-            navigate('/');
-        } else if (username === 'user' && password === 'password') {
-            login(username, 'user');
-            navigate('/');
-        } else {
-            setError('Invalid username or password');
-        }
+        Axios.post('https://hhbc-snw-api.netlify.app/api/login', { email: username, password })
+            .then((response) => {
+                if (response.data.success) {
+                    // Store the JWT token in localStorage
+                    localStorage.setItem('token', response.data.token);
+
+                    // Set user information in the UserContext
+                    login(response.data.user);
+
+                    // Navigate to the homepage or a protected route
+                    navigate('/');
+                }
+            })
+            .catch((error) => {
+                // Handle errors (e.g., incorrect username/password)
+                setError(error.response?.data?.message || 'An error occurred during login.');
+            });
     };
 
     return (
