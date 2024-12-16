@@ -1,0 +1,29 @@
+.createPrayerRequest {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-size: 1.8rem;
+    color: #0d6efd;
+    font-weight: 700;
+}
+
+textarea::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+button {
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.no-resize {
+    resize: none;
+    /* Prevents resizing */
+}

@@ -7,11 +7,11 @@ import Button from 'react-bootstrap/Button'
 import { useNavigate } from "react-router-dom";
 
 class SongPicker extends React.Component {
-
     state = {
         videos: [],
         selectedVideo: null
     }
+
     handleSubmit = async (termFromSearchBar) => {
         const response = await youtube.get('/search', {
             params: {
@@ -22,6 +22,7 @@ class SongPicker extends React.Component {
             videos: response.data.items
         })
     };
+
     handleVideoSelect = (video) => {
         const navigate = useNavigate();
         this.setState({ selectedVideo: video })
@@ -30,11 +31,8 @@ class SongPicker extends React.Component {
 
     render() {
         return (
-
             <div className='ui container' style={{ marginTop: '1em' }}>
-                {/* <Button href='/Login-Admin'id='login'>Log in</Button> */}
                 <SearchBar handleFormSubmit={this.handleSubmit} />
-                <div className='reminder'>Make sure it has lyrics!!</div>
                 <div className='ui grid'>
                     <div className="ui row">
                         <div className="eleven wide column">

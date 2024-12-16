@@ -6,7 +6,7 @@ import Img3 from '../images/YouthPraying.jpg';
 function Home() {
     return (
         <>
-            <Carousel>
+            {/* <Carousel>
                 <Carousel.Item>
                     <img src={Img1} className='w-40 h-50 center' />
                     <Carousel.Caption>
@@ -30,7 +30,8 @@ function Home() {
                         </p>
                     </Carousel.Caption>
                 </Carousel.Item>
-            </Carousel>
+            </Carousel> */}
+            <div className="blackBox">COMING SOON!</div>
         </>
     )
 }

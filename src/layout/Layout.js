@@ -9,7 +9,7 @@ function Layout(props) {
             <div className="wrapper">
                 <main className={""}>{props.children}</main>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }
