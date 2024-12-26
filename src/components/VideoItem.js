@@ -36,18 +36,18 @@ const VideoItem = ({ video, handleVideoSelect }) => {
         setIsLoading(true); // Start loading state to disable further clicks
 
         // Check if the video already exists in the database before inserting
-        const videoExists = await checkIfVideoExists(video.id.videoId);
-        if (videoExists) {
-            setIsDuplicate(true);
-            setModalText("This song has already been added.");
-            setModalImg(redX);
-            setShow(true);
-            setIsLoading(false); // End loading state
-            return;
-        }
+        // const videoExists = await checkIfVideoExists(video.id.videoId);
+        // if (videoExists) {
+        //     setIsDuplicate(true);
+        //     setModalText("This song has already been added.");
+        //     setModalImg(redX);
+        //     setShow(true);
+        //     setIsLoading(false); // End loading state
+        //     return;
+        // }
 
         // Proceed to add the song if it's not a duplicate
-        Axios.post(`https://hhbc-snw-api.netlify.app/api/addSongs`, {
+        Axios.post(`http://localhost:3001/api/addSongs`, {
             VideoSource: video.id.videoId,
             VideoTitle: video.snippet.title,
             VideoTitleShortened: video.snippet.title,

@@ -10,14 +10,17 @@ import "../style/MainNavigation.css"; // Ensure to update this CSS file for alig
 function MainNavigation() {
     const { user, setUser } = useUser();
     const [profilePic, setProfilePic] = useState(profilePlaceholder);
+    const [admin, setAdmin] = useState("");
     const navigate = useNavigate();
+    
 
     useEffect(() => {
         if (user && user.id) {
             // Fetch user profile picture
-            Axios.post("http://localhost:3001/userById", { USERID: user.id })
+            Axios.post("http:localhost:3001/api/userById", { USERID: user.id })
                 .then((res) => {
                     if (res.data && res.data.length > 0) {
+                        console.log(res.data[0])
                         setProfilePic(res.data[0].PROFILEPIC || profilePlaceholder);
                     }
                 })
@@ -53,6 +56,7 @@ function MainNavigation() {
                             </NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link as={Link} to="/SongPicker">Song Picker</Nav.Link>
+                        <Nav.Link as={Link} to="/SongSelector">Wheel Spin</Nav.Link>
                     </Nav>
                     <Nav className="align-items-center">
                         {user ? (

@@ -14,7 +14,7 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        Axios.post('https://hhbc-snw-api.netlify.app/api/login', { email: username, password })
+        Axios.post('http://localhost:3001/api/login', { email: username, password })
             .then((response) => {
                 if (response.data.success) {
                     // Store the JWT token in localStorage

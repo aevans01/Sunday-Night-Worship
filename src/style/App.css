@@ -312,3 +312,57 @@ body,
   color: #555;
 
 }
+
+.custom-wheel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+}
+
+.wheel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0;
+}
+
+.spin-btn {
+  margin-top: 20px;
+}
+
+.modal-content h4 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.modal-image-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+img.img-fluid {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.carousel-img {
+    width: 100%; /* Ensures the image covers the entire width of the container */
+    height: 400px; /* Set a fixed height for all carousel images */
+    object-fit: cover; /* Ensures the image scales without distortion and covers the area */
+    object-position: center; /* Centers the image if it is cropped */
+}

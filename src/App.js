@@ -24,19 +24,20 @@ class App extends React.Component {
                 <Layout>
                     <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/SongSelector" element={<SongSelector/>}/>
                         <Route path="/SongPicker" element={<SongPicker />} />
                         <Route path="/Login" element={<Login />} />
-                        <Route path="/SongSelector" element={
-                            <ProtectedRoute roles={['admin', 'user']}>
+                        {/* <Route path="/SongSelector" element={<SongSelector/>
+                           <ProtectedRoute roles={['admin', 'user']}>
                                 <SongSelector />
                             </ProtectedRoute>
-                        } />
+                        } /> */}
                         <Route path='/Register' element={<Register />} />
                         <Route path='/CreatePrayerRequest' element={<CreatePrayerRequest />} />
-                        <Route path='/ViewPrayerRequests' element={
-                            <ProtectedRoute roles={['admin']}>
+                        <Route path='/ViewPrayerRequests' element={<ViewPrayerRequests/>
+                          /*  <ProtectedRoute roles={['admin']}>
                                 <ViewPrayerRequests />
-                            </ProtectedRoute>
+                            </ProtectedRoute>*/
                         } />
                         <Route path='/Login-Admin' element={<AdminLogin />} />
                         <Route path="*" element={<AdminError />} />

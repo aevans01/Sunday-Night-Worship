@@ -16,9 +16,10 @@ function CreatePrayerRequest() {
 
     const post = async (e) => {
         e.preventDefault(); // Prevent form from refreshing the page
+        console.log(request);
         try {
-            await Axios.post("/addPR", {
-                request,
+            await Axios.post(`http://localhost:3001/api/addPR`, {
+                description: request,
                 user: selectedOption === "option2" ? user : "Anonymous",
                 private: selectedOption === "option1",
             });
