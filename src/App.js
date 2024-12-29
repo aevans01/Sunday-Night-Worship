@@ -1,7 +1,6 @@
 import React from 'react';
 import youtube from './youtube';
 import Home from './components/Home';
-import Hat from './components/Hat';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './style/App.css';
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -16,6 +15,7 @@ import ViewPrayerRequests from './components/ViewPrayerRequests';
 import Login from './components/Login';
 import { UserProvider } from './UserContext';
 import ProtectedRoute from './ProtectedRoute';
+import ViewProfile from './components/ViewProfile';
 
 class App extends React.Component {
     render() {
@@ -24,7 +24,11 @@ class App extends React.Component {
                 <Layout>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/SongSelector" element={<SongSelector/>}/>
+                        <Route path="/SongSelector" element={
+                            <ProtectedRoute roles={["1"]}>
+                                <SongSelector/>
+                            </ProtectedRoute>
+                        }/>
                         <Route path="/SongPicker" element={<SongPicker />} />
                         <Route path="/Login" element={<Login />} />
                         {/* <Route path="/SongSelector" element={<SongSelector/>
@@ -34,12 +38,13 @@ class App extends React.Component {
                         } /> */}
                         <Route path='/Register' element={<Register />} />
                         <Route path='/CreatePrayerRequest' element={<CreatePrayerRequest />} />
+                        <Route path='/ViewProfile' element={<ViewProfile/>}/>
                         <Route path='/ViewPrayerRequests' element={<ViewPrayerRequests/>
+                        
                           /*  <ProtectedRoute roles={['admin']}>
                                 <ViewPrayerRequests />
                             </ProtectedRoute>*/
                         } />
-                        <Route path='/Login-Admin' element={<AdminLogin />} />
                         <Route path="*" element={<AdminError />} />
                     </Routes>
                 </Layout>

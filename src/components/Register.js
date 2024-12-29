@@ -35,7 +35,7 @@ const RegisterForm = () => {
         }
 
         // API request for registration
-        Axios.post(`http://localhost:3001/api/register`, formData)
+        Axios.post(`https://hhbc-snw-api.netlify.app/api/register`, formData)
             .then((response) => {
                 if (response.data.success) {
                     setStatus({ success: true, message: "Registration successful! Redirecting to home..." });

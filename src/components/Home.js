@@ -13,21 +13,21 @@ function Home() {
                     <img src={Img1} alt="Youth Group" className="d-block carousel-img" />
                     <Carousel.Caption>
                         <h3 className="display-4">Building Community</h3>
-                        <p className="lead">Join our Youth Group for meaningful connections and growth.</p>
+                        <p className="lead gray">Join our Youth Group for meaningful connections and growth.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
                     <img src={Img2} alt="Youth Camp" className="d-block carousel-img" />
                     <Carousel.Caption>
                         <h3 className="display-4">Youth Camp Adventures</h3>
-                        <p className="lead">Explore new horizons and experience life-changing moments at Youth Camp.</p>
+                        <p className="lead gray">Explore new horizons and experience life-changing moments at Youth Camp.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
                     <img src={Img3} alt="Youth Praying" className="d-block carousel-img" />
                     <Carousel.Caption>
                         <h3 className="display-4">Power of Prayer</h3>
-                        <p className="lead">Together, we grow in faith through the power of prayer and community.</p>
+                        <p className="lead gray">Together, we grow in faith through the power of prayer and community.</p>
                     </Carousel.Caption>
                 </Carousel.Item>
             </Carousel>

@@ -10,17 +10,15 @@ import "../style/MainNavigation.css"; // Ensure to update this CSS file for alig
 function MainNavigation() {
     const { user, setUser } = useUser();
     const [profilePic, setProfilePic] = useState(profilePlaceholder);
-    const [admin, setAdmin] = useState("");
     const navigate = useNavigate();
     
-
     useEffect(() => {
         if (user && user.id) {
             // Fetch user profile picture
-            Axios.post("http:localhost:3001/api/userById", { USERID: user.id })
+            Axios.post("https://hhbc-snw-api.netlify.app/api/userById", { USERID: user.id })
                 .then((res) => {
                     if (res.data && res.data.length > 0) {
-                        console.log(res.data[0])
+                        console.log(res.data[0]);
                         setProfilePic(res.data[0].PROFILEPIC || profilePlaceholder);
                     }
                 })
@@ -36,6 +34,9 @@ function MainNavigation() {
         localStorage.clear();
         navigate("/");
     };
+
+    // Check if the user is an admin
+    const isAdmin = user && user.role === "1"; // Adjust this condition to match your user data structure
 
     return (
         <Navbar bg="light" expand="lg" className="shadow-sm">
@@ -56,23 +57,26 @@ function MainNavigation() {
                             </NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link as={Link} to="/SongPicker">Song Picker</Nav.Link>
-                        <Nav.Link as={Link} to="/SongSelector">Wheel Spin</Nav.Link>
+                        {/* Conditionally render the Wheel Spin link if the user is an admin */}
+                        {isAdmin && (
+                            <Nav.Link as={Link} to="/SongSelector">Wheel Spin</Nav.Link>
+                        )}
                     </Nav>
                     <Nav className="align-items-center">
                         {user ? (
                             <>
-                                <Image
-                                    src={profilePic}
-                                    roundedCircle
-                                    width="40"
-                                    height="40"
-                                    className="me-2"
-                                    alt="User profile"
-                                />
-                                <NavDropdown title={user.name} id="user-dropdown">
-                                    <NavDropdown.Item as={Link} to="/ViewProfile">
-                                        Edit Profile
-                                    </NavDropdown.Item>
+                                <div className="d-flex align-items-center">
+                                    <Image
+                                        src={profilePic}
+                                        roundedCircle
+                                        width="40"
+                                        height="40"
+                                        className="me-2"
+                                        alt="User profile"
+                                    />
+                                    <span className="fw-bold me-3 test">Hello, {user.email}</span>
+                                </div>
+                                <NavDropdown title={user.firstname} id="user-dropdown">
                                     <NavDropdown.Item onClick={handleLogout}>
                                         Logout
                                     </NavDropdown.Item>

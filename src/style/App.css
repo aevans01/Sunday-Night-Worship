@@ -366,3 +366,6 @@ img.img-fluid {
     object-fit: cover; /* Ensures the image scales without distortion and covers the area */
     object-position: center; /* Centers the image if it is cropped */
 }
+.gray,.display-4{
+  background-color: #6c757d;
+}

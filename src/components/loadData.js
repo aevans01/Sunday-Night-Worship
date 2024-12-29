@@ -1,6 +1,0 @@
-function loadData(){
-
-    
-
-    return null;
-}
