@@ -17,6 +17,6 @@ code {
 .LoginForm{
   width: 50%;
 }
-.test{
-  color: black;
+.gray,.display-4{
+  background-color: #6c757d;
 }
