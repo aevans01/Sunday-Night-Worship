@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "@glowstudent/youversion": "^2.1.0",
     "@googleapis/docs": "^3.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@youversion/js-api": "^3.0.0-alpha.0",
     "axios": "^1.5.1",
     "babel": "^6.23.0",
     "bcrypt": "^5.1.1",

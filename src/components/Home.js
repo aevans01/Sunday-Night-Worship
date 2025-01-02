@@ -3,8 +3,14 @@ import Img1 from '../images/YouthGroup.jpg';
 import Img2 from '../images/YouthCamp.jpg';
 import Img3 from '../images/YouthPraying.jpg';
 import { Button, Container } from 'react-bootstrap';
+import DailyBibleVerse from './DailyBibleVerse';
+const YouVersion = require("@glowstudent/youversion");
 
 function Home() {
+    // async function test() {
+    //     var verse = await YouVersion.getVerseOfTheDay("en", "KJV");
+    //     console.log(verse)
+    // }
     return (
         <>
             {/* Carousel Section */}
@@ -39,9 +45,12 @@ function Home() {
                     <p className="lead mb-4">
                         Join us on our mission to grow in faith, serve our community, and experience God’s love.
                     </p>
-                    <Button variant="primary" size="lg" href="/check-in" className="px-4 py-2">
+                    {/* <Button variant="primary" size="lg" href="/check-in" className="px-4 py-2">
                         Check In
-                    </Button>
+                    </Button> */}
+                    <div className='dailyVerseDiv'>
+                        <DailyBibleVerse />
+                    </div>
                 </div>
             </Container>
         </>

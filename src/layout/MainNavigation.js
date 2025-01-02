@@ -11,7 +11,7 @@ function MainNavigation() {
     const { user, setUser } = useUser();
     const [profilePic, setProfilePic] = useState(profilePlaceholder);
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         if (user && user.id) {
             // Fetch user profile picture
@@ -59,7 +59,10 @@ function MainNavigation() {
                         <Nav.Link as={Link} to="/SongPicker">Song Picker</Nav.Link>
                         {/* Conditionally render the Wheel Spin link if the user is an admin */}
                         {isAdmin && (
-                            <Nav.Link as={Link} to="/SongSelector">Wheel Spin</Nav.Link>
+                            <>
+                                <Nav.Link as={Link} to="/SongSelector">Wheel Spin</Nav.Link>
+                                <Nav.Link as={Link} to="/AdminDashboard">Admin Dashboard</Nav.Link>
+                            </>
                         )}
                     </Nav>
                     <Nav className="align-items-center">
