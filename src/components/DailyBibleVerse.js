@@ -25,7 +25,7 @@ const DailyBibleVerse = () => {
                 // setVerse(verses[todayIndex]);
             } catch (error) {
                 console.error("Error fetching the verse:", error);
-                setVerse(verses[0]); // Fallback to the first verse
+                setVerse(verses[3]); // Fallback to the first verse
             }
         };
 
