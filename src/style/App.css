@@ -43,7 +43,7 @@
   height: 100%
 }
 
-#modalTitle{
+#modalTitle {
   margin: auto;
 }
 
@@ -54,14 +54,315 @@ body,
   height: 100%;
   background-color: black;
 }
-#login{
+
+#login {
   float: right;
 }
-.LoginForm{
+
+.LoginForm {
   color: white;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.registerForm {
+  color: white;
+  width: 70%;
+  margin: auto;
+}
+
+.greyBox {
+  background-color: grey;
+  width: 50%;
+  margin: auto;
+  margin-top: 25px;
+}
+
+.blackBox {
+  color: white;
+  font-size: 100px;
+  width: 50%;
+  margin: auto;
+}
+
+.createPrayerRequest {
+  color: white;
+}
+
+#PR {
+  font-size: 15px;
+}
+
+#PRarea {
+  width: 50%;
+}
+
+.PRName {
+  width: 20%;
+}
+
+.register-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-form {
+  margin-top: 20px;
+}
+
+.register-form .btn {
+  font-size: 16px;
+  padding: 10px;
+}
+
+.video-list {
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.video-list .text-muted {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin-top: 20px;
+}
+
+.searchbar-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.searchbar-form {
+  margin-bottom: 0;
+}
+
+.searchbar-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #495057;
+}
+
+.searchbar-input {
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.searchbar-button {
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.alert {
+  font-weight: bold;
+}
+
+.ui.grid {
+  margin-top: 20px;
+}
+
+.search-bar .ui.form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Centering video items and making them larger */
+.video-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.video-thumbnail-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.video-thumbnail {
+  width: 100%;
+  max-width: 400px;
+  /* Make the thumbnails bigger */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.video-thumbnail:hover {
+  transform: scale(1.05);
+  /* Hover effect to make the image appear bigger */
+}
+
+.video-item .content .header {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.video-item.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.video-thumbnail-container:hover .video-thumbnail {
+  transform: scale(1.1);
+  /* Slightly scale up on hover */
+}
+
+.modalImg img {
+  width: 100px;
+  height: auto;
+}
+
+/* Centering the video items in the list */
+.ui.grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.ui.row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.video-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.video-thumbnail-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.video-thumbnail {
+  width: 100%;
+  max-width: 400px;
+  /* Make the thumbnails bigger */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.video-thumbnail:hover {
+  transform: scale(1.05);
+  /* Hover effect to make the image appear bigger */
+}
+
+.video-item .content .header {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.video-item.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.video-thumbnail-container:hover .video-thumbnail {
+  transform: scale(1.1);
+  /* Slightly scale up on hover */
+}
+
+.modalImg img {
+  width: 100px;
+  height: auto;
+}
+
+.reminder {
+  text-align: center;
+  margin-left: 20%;
+  font-size: 20px;
+  margin-top: 20px;
+  color: #555;
+
+}
+
+.custom-wheel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+}
+
+.wheel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0;
+}
+
+.spin-btn {
+  margin-top: 20px;
+}
+
+.modal-content h4 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.modal-image-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+img.img-fluid {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.carousel-img {
+    width: 100%; /* Ensures the image covers the entire width of the container */
+    height: 400px; /* Set a fixed height for all carousel images */
+    object-fit: cover; /* Ensures the image scales without distortion and covers the area */
+    object-position: center; /* Centers the image if it is cropped */
 }

@@ -1,53 +1,60 @@
-import React from 'react';
-import SearchBar from './SearchBar';
-import youtube from '../youtube';
-import VideoList from './VideoList';
-import VideoDetail from './VideoDetail';
-import Button from 'react-bootstrap/Button'
-import { useNavigate } from "react-router-dom";
+import Carousel from 'react-bootstrap/Carousel';
+import Img1 from '../images/YouthGroup.jpg';
+import Img2 from '../images/YouthCamp.jpg';
+import Img3 from '../images/YouthPraying.jpg';
+import { Button, Container } from 'react-bootstrap';
+import DailyBibleVerse from './DailyBibleVerse';
+const YouVersion = require("@glowstudent/youversion");
 
-class Home extends React.Component {
+function Home() {
+    // async function test() {
+    //     var verse = await YouVersion.getVerseOfTheDay("en", "KJV");
+    //     console.log(verse)
+    // }
+    return (
+        <>
+            {/* Carousel Section */}
+            <Carousel>
+                <Carousel.Item>
+                    <img src={Img1} alt="Youth Group" className="d-block carousel-img" />
+                    <Carousel.Caption>
+                        <h3 className="display-4">Building Community</h3>
+                        <p className="lead gray">Join our Youth Group for meaningful connections and growth.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <img src={Img2} alt="Youth Camp" className="d-block carousel-img" />
+                    <Carousel.Caption>
+                        <h3 className="display-4">Youth Camp Adventures</h3>
+                        <p className="lead gray">Explore new horizons and experience life-changing moments at Youth Camp.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <img src={Img3} alt="Youth Praying" className="d-block carousel-img" />
+                    <Carousel.Caption>
+                        <h3 className="display-4">Power of Prayer</h3>
+                        <p className="lead gray">Together, we grow in faith through the power of prayer and community.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+            </Carousel>
 
-    state = {
-        videos: [],
-        selectedVideo: null
-    }
-    handleSubmit = async (termFromSearchBar) => {
-        const response = await youtube.get('/search', {
-            params: {
-                q: termFromSearchBar
-            }
-        })
-        this.setState({
-            videos: response.data.items
-        })
-    };
-    handleVideoSelect = (video) => {
-        const navigate = useNavigate();
-        this.setState({ selectedVideo: video })
-        { navigate("./Hat") }
-    }
-
-    render() {
-        return (
-            
-            <div className='ui container' style={{ marginTop: '1em' }}>
-                {/* <Button href='/Login-Admin'id='login'>Log in</Button> */}
-                <SearchBar handleFormSubmit={this.handleSubmit} />
-                <div className='reminder'>Make sure it has lyrics!!</div>
-                <div className='ui grid'>
-                    <div className="ui row">
-                        <div className="eleven wide column">
-                            <VideoDetail video={this.state.selectedVideo} />
-                        </div>
-                        <div className="five wide column">
-                            <VideoList handleVideoSelect={this.handleVideoSelect} videos={this.state.videos} />
-                        </div>
+            {/* Welcome Section */}
+            <Container className="text-center mt-5">
+                <div className="p-4 bg-dark text-white rounded shadow">
+                    <h1 className="display-3 mb-4">Welcome to Haven Heights Baptist Church!</h1>
+                    <p className="lead mb-4">
+                        Join us on our mission to grow in faith, serve our community, and experience God’s love.
+                    </p>
+                    {/* <Button variant="primary" size="lg" href="/check-in" className="px-4 py-2">
+                        Check In
+                    </Button> */}
+                    <div className='dailyVerseDiv'>
+                        <DailyBibleVerse />
                     </div>
                 </div>
-            </div>
-        )
-    }
+            </Container>
+        </>
+    );
 }
 
 export default Home;
