@@ -10,15 +10,20 @@ const verses = [
 
 const DailyBibleVerse = () => {
     const [verse, setVerse] = useState(null);
+    const [reference, setReference] = useState(null);
 
     useEffect(() => {
         // Function to fetch a daily verse
         const fetchVerse = async () => {
             try {
                 // Uncomment and use this if you have an API endpoint for Bible verses
-                const response = await fetch('https://www.bible.com/${language}/verse-of-the-day');
+                const response = await fetch('https://bible-api.com/data/kjv/random');
                 const data = await response.json();
-                setVerse({ text: data.text, reference: data.reference });
+                console.log(data.random_verse);
+                const verse = data.random_verse.text;
+                const reference = data.random_verse.book + " " + data.random_verse.chapter + ":" + data.random_verse.verse;
+                setVerse(verse);
+                setReference(reference);
 
                 // Fallback to random verse if no API
                 // const todayIndex = new Date().getDate() % verses.length; // Rotate through verses by day
@@ -37,8 +42,8 @@ const DailyBibleVerse = () => {
     return (
         <div style={{ textAlign: 'center', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
             <h2>Daily Bible Verse</h2>
-            <p style={{ fontStyle: 'italic', fontSize: '1.5em' }}>{`"${verse.text}"`}</p>
-            <p style={{ fontWeight: 'bold', fontSize: '1.2em' }}>{`- ${verse.reference}`}</p>
+            <p style={{ fontStyle: 'italic', fontSize: '1.5em' }}>{`"${verse}"`}</p>
+            <p style={{ fontWeight: 'bold', fontSize: '1.2em' }}>{`- ${reference}`}</p>
         </div>
     );
 };
