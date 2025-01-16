@@ -43,9 +43,7 @@ const CustomWheel = () => {
             setSpinning(true);  // Set spinning state to true
             const newPrizeNumber = Math.floor(Math.random() * data.length);  // Recalculate prize number based on remaining options
             setPrizeNumber(newPrizeNumber);  // Set the new prize number
-            setTimeout(() => {
-                setMustSpin(false);  // Stop spinning after timeout
-            }, 3000);  // 3 seconds to spin
+            setTimeout(() => setMustSpin(false), 0);
         }
     };
 
@@ -55,7 +53,6 @@ const CustomWheel = () => {
             setWinner(data[prizeNumber].option);  // Set winner based on prize number
             setWinnerURL(List[prizeNumber].VideoSource);  // Set winner URL
             setShow(true);  // Show winner modal
-            window.open(`https://www.youtube.com/watch?v=${List[prizeNumber].VideoSource}`);  // Open YouTube link
             
             // Remove the chosen winner from the wheel data
             const updatedData = data.filter((item, index) => index !== prizeNumber);  // Filter out the winner
@@ -115,11 +112,10 @@ const CustomWheel = () => {
                     </Button>
                     <Modal show={show} onHide={handleClose} centered size="lg">
                         <Modal.Header closeButton>
-                            <Modal.Title>Congratulations!</Modal.Title>
+                            <Modal.Title>{List[prizeNumber].VideoTitle}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <div className="modal-content">
-                                <h4>{winner}</h4>
                                 <div className="modal-image-container">
                                     <a href={`https://www.youtube.com/watch?v=${List[prizeNumber].VideoSource}`} target="_blank" rel="noopener noreferrer">
                                         <img src={List[prizeNumber].VideoImage} alt="Video Thumbnail" className="img-fluid" />
