@@ -11,17 +11,32 @@ const verses = [
 const DailyBibleVerse = () => {
     const [verse, setVerse] = useState(null);
     const [reference, setReference] = useState(null);
+    const [votd, setVotd] = useState(null);
+    const[verseOfTheDay, setVerseOfTheDay] = useState(null);
 
     useEffect(() => {
         // Function to fetch a daily verse
         const fetchVerse = async () => {
             try {
+                const options = { method: 'GET', headers: { accept: 'application/json' } };
+
+                fetch('https://beta.ourmanna.com/api/v1/get?format=json&order=daily', options)
+                    .then(res => res.json())
+                    .then((res) => {
+                        
+                        setVotd(res.verse.details.reference);
+                    })
+                    .catch(err => console.error(err));
+
+
                 // Uncomment and use this if you have an API endpoint for Bible verses
-                const response = await fetch('https://bible-api.com/data/kjv/random');
-                const data = await response.json();
-                console.log(data.random_verse);
-                const verse = data.random_verse.text;
-                const reference = data.random_verse.book + " " + data.random_verse.chapter + ":" + data.random_verse.verse;
+               // var verse = await YouVersion.getVerseOfTheDay("en", "KJV");
+                 const response = await fetch('https://bible-api.com/data/kjv/');
+                // console.log(response.verse);
+                // const data = await response.json();
+                // console.log(data);
+                // const verse = data.random_verse.text;
+                // const reference = data.random_verse.book + " " + data.random_verse.chapter + ":" + data.random_verse.verse;
                 setVerse(verse);
                 setReference(reference);
 

@@ -18,12 +18,12 @@ const Login = () => {
         Axios.post('https://hhbc-snw-api.netlify.app/api/login', { email: username, password })
             .then((response) => {
                 if (response.data.success) {
-                    console.log(response.data)
+                    console.log(response.data.user.firstName)
                     // Store the JWT token in localStorage
                     localStorage.setItem('token', response.data.token);
+                    localStorage.setItem('user', JSON.stringify(response.data.user.firstName));
                     // Set user information in the UserContext
                     login(response.data.user, response.data.user.role);
-
                     // Navigate to the homepage or a protected route
                     navigate('/');
                 }

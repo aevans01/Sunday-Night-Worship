@@ -77,7 +77,7 @@ function MainNavigation() {
                                         className="me-2"
                                         alt="User profile"
                                     />
-                                    <span className="fw-bold me-3 test">Hello, {user.email}</span>
+                                    <span className="fw-bold me-3 test">Hello, {JSON.parse(localStorage.getItem('user').trim())}</span>
                                 </div>
                                 <NavDropdown title={user.firstname} id="user-dropdown">
                                     <NavDropdown.Item onClick={handleLogout}>
