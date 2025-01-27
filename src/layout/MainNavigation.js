@@ -48,6 +48,7 @@ function MainNavigation() {
                 <Navbar.Collapse id="navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/">Home</Nav.Link>
+
                         <NavDropdown title="Prayer Requests" id="prayer-dropdown">
                             <NavDropdown.Item as={Link} to="/ViewPrayerRequests">
                                 View Prayer Requests
@@ -57,6 +58,9 @@ function MainNavigation() {
                             </NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link as={Link} to="/SongPicker">Song Picker</Nav.Link>
+                        <NavDropdown title="Photos" id="photos-dropdown">
+                            <NavDropdown.Item as={Link} to="/UploadPhotos">Upload Photos</NavDropdown.Item>
+                        </NavDropdown>
                         {/* Conditionally render the Wheel Spin link if the user is an admin */}
                         {isAdmin && (
                             <>

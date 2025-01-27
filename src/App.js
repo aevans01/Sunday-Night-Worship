@@ -19,6 +19,7 @@ import ViewProfile from './components/ViewProfile';
 import ViewPRAdmin from './components/ViewPRAdmin';
 import ViewSongsAdmin from './components/ViewSongsAdmin';
 import ViewUsersAdmin from './components/ViewUsersAdmin';
+import PhotoUpload from './components/PhotoUpload';
 
 class App extends React.Component {
     render() {
@@ -64,10 +65,13 @@ class App extends React.Component {
                         <Route path='/ViewProfile' element={<ViewProfile />} />
                         <Route path='/ViewPrayerRequests' element={<ViewPrayerRequests />
 
+
+
                             /*  <ProtectedRoute roles={['admin']}>
                                   <ViewPrayerRequests />
                               </ProtectedRoute>*/
                         } />
+                        <Route path='/UploadPhotos' element={<PhotoUpload />} />
                         <Route path="*" element={<AdminError />} />
                     </Routes>
                 </Layout>
