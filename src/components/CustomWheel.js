@@ -12,6 +12,7 @@ const CustomWheel = () => {
     const [show, setShow] = useState(false);
     const [winner, setWinner] = useState('');
     const [winnerURL, setWinnerURL] = useState('');
+    const [winnerImg, setWinnerImg] = useState('');
     const [spinning, setSpinning] = useState(false);  // Added state for controlling spinning process
 
     // Use an effect that runs only once on component mount to fetch songs
@@ -36,6 +37,12 @@ const CustomWheel = () => {
         fetchData();  // Fetch data only once
     }, []);  // Empty dependency array to run the effect only once
 
+    // useEffect(() => {
+    //     if (!mustSpin) {
+    //         handleStopSpinning();
+    //     }
+    // }, [mustSpin]);
+
     // Handle spin click (should trigger only once and safely update the state)
     const handleSpinClick = () => {
         if (!mustSpin && data.length > 0 && !spinning) {  // Prevent starting spin if already spinning
@@ -43,31 +50,44 @@ const CustomWheel = () => {
             setSpinning(true);  // Set spinning state to true
             const newPrizeNumber = Math.floor(Math.random() * data.length);  // Recalculate prize number based on remaining options
             setPrizeNumber(newPrizeNumber);  // Set the new prize number
-            setTimeout(() => setMustSpin(false), 0);
+            //     setTimeout(() => {
+            //         setMustSpin(false);  // Stop spinning after timeout
+            //     }, 0);  // 3 seconds to spin
         }
     };
 
     // Handle when the wheel stops spinning
     const handleStopSpinning = () => {
-        if (data && data[prizeNumber]) {
-            setWinner(data[prizeNumber].option);  // Set winner based on prize number
-            setWinnerURL(List[prizeNumber].VideoSource);  // Set winner URL
-            setShow(true);  // Show winner modal
-            
-            // Remove the chosen winner from the wheel data
-            const updatedData = data.filter((item, index) => index !== prizeNumber);  // Filter out the winner
-            setData(updatedData);  // Update wheel data to remove the winner
+        console.log("Wheel stopped!");
+        console.log("Prize number:", prizeNumber);
+        console.log("Winner:", data[prizeNumber]?.option);
+        if (data.length > 0 && List.length > 0) {
+            // Store the exact winner BEFORE modifying data
+            const selectedItem = List.find(item => item.VideoTitleShortened === data[prizeNumber].option);
 
-            // Ensure the prizeNumber is still within bounds after updating data
-            if (updatedData.length > 0) {
-                // If the array is not empty, recalculate a valid prize number
-                setPrizeNumber(Math.floor(Math.random() * updatedData.length));
-            } else {
-                // If no data left, reset to initial state
-                setPrizeNumber(0);
+            if (selectedItem) {
+                setWinner(selectedItem.VideoTitleShortened); // Set the correct winner name
+                setWinnerURL(selectedItem.VideoSource); // Set the correct winner's video source
+                setWinnerImg(selectedItem.VideoImage);  // Set winner image
+                setShow(true);  // Show winner modal
+                //window.open(`https://www.youtube.com/watch?v=${List[prizeNumber].VideoSource}`);  // Open YouTube link
+
+                // Remove the chosen winner from the wheel data
+                const updatedData = data.filter((_, index) => index !== prizeNumber);  // Filter out the winner
+                setData(updatedData);  // Update wheel data to remove the winner
+
+                // Ensure the prizeNumber is still within bounds after updating data
+                if (updatedData.length > 0) {
+                    // If the array is not empty, recalculate a valid prize number
+                    setPrizeNumber(Math.floor(Math.random() * updatedData.length));
+                } else {
+                    // If no data left, reset to initial state
+                    setPrizeNumber(0);
+                }
             }
 
             setSpinning(false);  // Reset spinning state after the spin is complete
+            setMustSpin(false);  // Reset mustSpin state after the spin is complete
         }
     };
 
@@ -101,10 +121,10 @@ const CustomWheel = () => {
                             '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'
                         ]}
                     />
-                    <Button 
-                        variant="primary" 
-                        size="lg" 
-                        className="spin-btn" 
+                    <Button
+                        variant="primary"
+                        size="lg"
+                        className="spin-btn"
                         onClick={handleSpinClick}
                         disabled={mustSpin || data.length === 0 || spinning}  // Disable button during spinning
                     >
@@ -112,13 +132,13 @@ const CustomWheel = () => {
                     </Button>
                     <Modal show={show} onHide={handleClose} centered size="lg">
                         <Modal.Header closeButton>
-                            <Modal.Title>{List[prizeNumber].VideoTitle}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <div className="modal-content">
                                 <div className="modal-image-container">
-                                    <a href={`https://www.youtube.com/watch?v=${List[prizeNumber].VideoSource}`} target="_blank" rel="noopener noreferrer">
-                                        <img src={List[prizeNumber].VideoImage} alt="Video Thumbnail" className="img-fluid" />
+                                    <a href={`https://www.youtube.com/watch?v=${winnerURL}`} target="_blank" rel="noopener noreferrer">
+                                        <img src={List.find(item => item.VideoSource === winnerURL)?.VideoImage}
+                                            alt="Video Thumbnail" className="img-fluid" />
                                     </a>
                                 </div>
                             </div>

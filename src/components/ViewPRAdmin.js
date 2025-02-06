@@ -32,6 +32,26 @@ function ViewPrayerRequests() {
         );
     }
 
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this prayer request?")) return;
+
+        try {
+            const response = await Axios.delete(
+                `https://hhbc-snw-api.netlify.app/api/deletePR/${id}`
+            );
+
+            if (response.status === 200) {
+                setList(List.filter((user) => user.id !== id));
+                alert("PR deleted successfully!");
+            } else {
+                alert("Failed to delete PR. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error deleting PR:", error);
+            alert("An error occurred while deleting the PR.");
+        }
+    };
+
     return (
         <Container className="mt-5">
             <h2 className="text-center mb-4">Prayer Requests</h2>
@@ -56,7 +76,7 @@ function ViewPrayerRequests() {
                             <tbody>
                                 {List.map((request, index) => (
                                     <tr key={index}>
-                                        <td><Button>Delete</Button></td>
+                                        <td><Button variant="danger">Delete</Button></td>
                                         <td>{request.description}</td>
                                         <td>{request.User}</td>
                                     </tr>

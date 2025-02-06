@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "@cloudinary/react": "^1.13.1",
+    "@cloudinary/url-gen": "^1.21.0",
     "@glowstudent/youversion": "^2.1.0",
     "@googleapis/docs": "^3.0.0",
     "@testing-library/jest-dom": "^5.17.0",
