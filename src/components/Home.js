@@ -45,6 +45,22 @@ function Home() {
                     <p className="lead mb-4">
                         Join us on our mission to grow in faith, serve our community, and experience God’s love.
                     </p>
+                    <h4>Service Meeting Times</h4>
+                    <ul className="list-unstyled">Sunday
+                        <li>Sunday School (we have classes for all ages): 9:30 AM</li>
+                        <li>Morning Service: 10:45 AM</li>
+                        <li>Evening Service: 6:30 PM</li>
+                    </ul>
+                    <ul className="list-unstyled">Wednesday
+                        <li>Prayer Meeting: 6:30 PM</li>
+                    </ul>
+                    <div className="mt-4">
+                        <h1 className="text-decoration-underline">Announcements</h1>
+                        
+                    </div>
+
+
+
                     {/* <Button variant="primary" size="lg" href="/check-in" className="px-4 py-2">
                         Check In
                     </Button> */}

@@ -60,12 +60,16 @@ function MainNavigation() {
                         <Nav.Link as={Link} to="/SongPicker">Song Picker</Nav.Link>
                         <NavDropdown title="Photos" id="photos-dropdown">
                             <NavDropdown.Item as={Link} to="/UploadPhotos">Upload Photos</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/PhotoAlbum">Photo Album</NavDropdown.Item>
                         </NavDropdown>
+                        {/* <Nav.Link as={Link} to="/Events">Events</Nav.Link> */}
                         {/* Conditionally render the Wheel Spin link if the user is an admin */}
                         {isAdmin && (
                             <>
-                                <Nav.Link as={Link} to="/SongSelector">Wheel Spin</Nav.Link>
-                                <Nav.Link as={Link} to="/AdminDashboard">Admin Dashboard</Nav.Link>
+                                <NavDropdown title="Admin" id="admin-dropdown">
+                                    <NavDropdown.Item as={Link} to="/SongSelector">Wheel Spin</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/AdminDashboard">Admin Dashboard</NavDropdown.Item>
+                                </NavDropdown>
                             </>
                         )}
                     </Nav>

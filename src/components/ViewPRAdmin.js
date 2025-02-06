@@ -37,7 +37,7 @@ function ViewPrayerRequests() {
 
         try {
             const response = await Axios.delete(
-                `https://deploy-preview-3--hhbc-snw-api.netlify.app/api/deletePR/${id}`
+                `https://hhbc-snw-api.netlify.app/api/deletePR/${id}`
             );
 
             if (response.status === 200) {

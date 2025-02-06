@@ -20,6 +20,9 @@ import ViewPRAdmin from './components/ViewPRAdmin';
 import ViewSongsAdmin from './components/ViewSongsAdmin';
 import ViewUsersAdmin from './components/ViewUsersAdmin';
 import PhotoUpload from './components/PhotoUpload';
+import PhotoAlbum from './components/PhotoAlbum';
+import Events from './components/Events';
+import CreateEvent from './components/CreateEvent';
 
 class App extends React.Component {
     render() {
@@ -64,14 +67,14 @@ class App extends React.Component {
                         <Route path='/CreatePrayerRequest' element={<CreatePrayerRequest />} />
                         <Route path='/ViewProfile' element={<ViewProfile />} />
                         <Route path='/ViewPrayerRequests' element={<ViewPrayerRequests />
-
-
-
                             /*  <ProtectedRoute roles={['admin']}>
                                   <ViewPrayerRequests />
                               </ProtectedRoute>*/
                         } />
+                        <Route path='/Events' element={<Events />} />
                         <Route path='/UploadPhotos' element={<PhotoUpload />} />
+                        <Route path='/PhotoAlbum' element={<PhotoAlbum />} />
+                        <Route path='/CreateEvent' element={<CreateEvent />} />
                         <Route path="*" element={<AdminError />} />
                     </Routes>
                 </Layout>
