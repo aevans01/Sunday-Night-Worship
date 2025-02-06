@@ -13,8 +13,6 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Email: " + username);
-        console.log("Password: " + password);
         Axios.post('https://hhbc-snw-api.netlify.app/api/login', { email: username, password })
             .then((response) => {
                 if (response.data.success) {
