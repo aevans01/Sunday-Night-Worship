@@ -23,7 +23,7 @@ const Login = () => {
                     localStorage.setItem('token', response.data.token);
                     // Set user information in the UserContext
                     login(response.data.user, response.data.user.role);
-
+                    localStorage.setItem('user', JSON.stringify(response.data.user.firstName));
                     // Navigate to the homepage or a protected route
                     navigate('/');
                 }
