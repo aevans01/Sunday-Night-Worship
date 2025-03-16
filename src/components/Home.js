@@ -64,9 +64,9 @@ function Home() {
                     {/* <Button variant="primary" size="lg" href="/check-in" className="px-4 py-2">
                         Check In
                     </Button> */}
-                    <div className='dailyVerseDiv'>
+                    {/* <div className='dailyVerseDiv'>
                         <DailyBibleVerse />
-                    </div>
+                    </div> */}
                 </div>
             </Container>
         </>

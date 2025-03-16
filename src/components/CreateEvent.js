@@ -5,11 +5,14 @@ import '../style/CreateEvent.css';  // Adding custom styles
 
 function CreateEvent() {
     // Form state
-    const [eventTitle, setEventTitle] = useState('');
-    const [eventDate, setEventDate] = useState('');
-    const [eventLocation, setEventLocation] = useState('');
-    const [eventDetails, setEventDetails] = useState('');
-    const [eventImage, setEventImage] = useState(null); // Store selected image
+    const [formData, setFormData] = useState({
+        eventTitle: "",
+        eventDate: "",
+        eventLocation: "",
+        eventDetails: "",
+        eventImage: null,
+    });
+
     const [imagePreviews, setImagePreviews] = useState([]); // Store fetched images for display
 
     // Fetch event images from the database
@@ -25,46 +28,49 @@ function CreateEvent() {
         fetchImages();
     }, []);
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    // Handle image selection from database
+    const handleImageSelect = (image) => {
+        console.log(image.filename);
+        setFormData((prevData) => ({
+            ...prevData,
+            eventImage: image.filename,  // Store image filename in formData
+        }));
+    };
+
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Create form data to send to the API
-        const formData = new FormData();
-        formData.append('Title', eventTitle);
-        formData.append('Date', eventDate);
-        formData.append('Location', eventLocation);
-        formData.append('Details', eventDetails);
-        formData.append('Image', eventImage); // Assuming you are sending the image file directly
-        for (let pair of formData.entries()) {
-            console.log(pair[0], pair[1]);
-        }
+        // Log formData for debugging
+        console.log("Form Data Submitted:", formData);
+
         try {
             const response = await Axios.post('https://hhbc-snw-api.netlify.app/api/addEvent', formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             });
 
             if (response.status === 200) {
                 alert('Event created successfully');
                 // Reset form after submission
-                setEventTitle('');
-                setEventDate('');
-                setEventLocation('');
-                setEventDetails('');
-                setEventImage(null);
+                setFormData({
+                    eventTitle: "",
+                    eventDate: "",
+                    eventLocation: "",
+                    eventDetails: "",
+                    eventImage: null,
+                });
             }
         } catch (error) {
             console.error('Error creating event:', error);
             alert('Failed to create event');
         }
-    };
-
-    // Handle image selection from database
-    const handleImageSelect = (image) => {
-        console.log(image);
-        setEventImage(image); // Set selected image as event image
     };
 
     return (
@@ -78,8 +84,9 @@ function CreateEvent() {
                             <Form.Control
                                 type="text"
                                 placeholder="Enter event title"
-                                value={eventTitle}
-                                onChange={(e) => setEventTitle(e.target.value)}
+                                name="eventTitle"  // Add the name attribute
+                                value={formData.eventTitle}
+                                onChange={handleInputChange}
                                 required
                                 className="input-field"
                             />
@@ -89,8 +96,9 @@ function CreateEvent() {
                             <Form.Label className="fw-bold">Event Date</Form.Label>
                             <Form.Control
                                 type="date"
-                                value={eventDate}
-                                onChange={(e) => setEventDate(e.target.value)}
+                                name="eventDate"  // Add the name attribute
+                                value={formData.eventDate}
+                                onChange={handleInputChange}
                                 required
                                 className="input-field"
                             />
@@ -101,8 +109,9 @@ function CreateEvent() {
                             <Form.Control
                                 type="text"
                                 placeholder="Enter event location"
-                                value={eventLocation}
-                                onChange={(e) => setEventLocation(e.target.value)}
+                                name="eventLocation"  // Add the name attribute
+                                value={formData.eventLocation}
+                                onChange={handleInputChange}
                                 required
                                 className="input-field"
                             />
@@ -114,8 +123,9 @@ function CreateEvent() {
                                 as="textarea"
                                 rows={4}
                                 placeholder="Enter event details"
-                                value={eventDetails}
-                                onChange={(e) => setEventDetails(e.target.value)}
+                                name="eventDetails"  // Add the name attribute
+                                value={formData.eventDetails}
+                                onChange={handleInputChange}
                                 required
                                 className="input-field"
                             />
@@ -127,7 +137,7 @@ function CreateEvent() {
                                 {imagePreviews.map((image, index) => (
                                     <Col key={index} xs={6} sm={4} md={3} className="mb-3">
                                         <Card
-                                            className={`image-preview-card ${eventImage === image ? 'border-primary' : ''}`}
+                                            className={`image-preview-card ${formData.eventImage === image.filename ? 'border-primary' : ''}`}
                                             onClick={() => handleImageSelect(image)}
                                             style={{ cursor: 'pointer' }}
                                         >

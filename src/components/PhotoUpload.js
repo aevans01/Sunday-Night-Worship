@@ -3,22 +3,24 @@ import axios from "axios";
 import { Card, Button, Form, Spinner, Alert } from "react-bootstrap";
 
 const PhotoUpload = () => {
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFiles, setSelectedFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [uploadSuccess, setUploadSuccess] = useState(null);
 
     const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
+        setSelectedFiles(Array.from(event.target.files));
     };
 
     const handleUpload = async () => {
-        if (!selectedFile) {
-            alert("Please select a file to upload.");
+        if (selectedFiles.length === 0) {
+            alert("Please select at least one file to upload.");
             return;
         }
 
         const formData = new FormData();
-        formData.append("photo", selectedFile);
+        selectedFiles.forEach((file) => {
+            formData.append("photos", file);
+        });
 
         setUploading(true);
         setUploadSuccess(null);
@@ -40,22 +42,22 @@ const PhotoUpload = () => {
             setUploadSuccess(false);
         } finally {
             setUploading(false);
-            setSelectedFile(null);
+            setSelectedFiles([]);
         }
     };
 
     return (
         <Card className="p-4 mx-auto mt-5" style={{ maxWidth: "500px" }}>
             <Card.Body>
-                <Card.Title className="mb-4">Upload a Photo</Card.Title>
+                <Card.Title className="mb-4">Upload Photos</Card.Title>
                 <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Label>Select a photo to upload:</Form.Label>
-                    <Form.Control type="file" accept="image/*" onChange={handleFileChange} />
+                    <Form.Label>Select photos to upload:</Form.Label>
+                    <Form.Control type="file" accept="image/*" multiple onChange={handleFileChange} />
                 </Form.Group>
                 <Button
                     variant="primary"
                     onClick={handleUpload}
-                    disabled={uploading || !selectedFile}
+                    disabled={uploading || selectedFiles.length === 0}
                     className="w-100"
                 >
                     {uploading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : "Upload"}

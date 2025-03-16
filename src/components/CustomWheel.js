@@ -132,6 +132,7 @@ const CustomWheel = () => {
                     </Button>
                     <Modal show={show} onHide={handleClose} centered size="lg">
                         <Modal.Header closeButton>
+                            <Modal.Title>{List.find(item => item.VideoSource === winnerURL)?.VideoTitle}</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <div className="modal-content">
