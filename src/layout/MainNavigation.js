@@ -62,7 +62,7 @@ function MainNavigation() {
                             <NavDropdown.Item as={Link} to="/UploadPhotos">Upload Photos</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to="/PhotoAlbum">Photo Album</NavDropdown.Item>
                         </NavDropdown>
-                        {/* <Nav.Link as={Link} to="/Events">Events</Nav.Link> */}
+                        <Nav.Link as={Link} to="/Events">Events</Nav.Link>
                         {/* Conditionally render the Wheel Spin link if the user is an admin */}
                         {isAdmin && (
                             <>

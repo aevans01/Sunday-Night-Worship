@@ -376,3 +376,7 @@ img.img-fluid {
   color: black;
   font-size: 14px;
 }
+
+.btnSpace {
+  margin-left: 5px;
+}

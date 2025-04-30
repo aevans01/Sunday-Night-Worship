@@ -1,17 +1,27 @@
+import React, { useState } from 'react';
 import Axios from "axios";
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Card } from 'react-bootstrap'; // Importing necessary components
+import { Container, Row, Col, Card } from 'react-bootstrap';
 
 function AdminDashboard() {
-  // Function to clear songs
-  function clearSongs() {
-    Axios.post(`https://hhbc-snw-api.netlify.app/api/deleteSongs`);
-  }
+  const [showModal, setShowModal] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      await Axios.post(`https://hhbc-snw-api.netlify.app/api/deleteSongs`);
+      setShowModal(false);
+      // Optionally show a success alert here
+    } catch (error) {
+      console.error('Error deleting songs:', error);
+      // Optionally show an error alert here
+    }
+  };
 
   return (
     <Container className="my-5">
-      <h2 className="text-center mb-4">Admin Dashboard</h2>
+      <h2 className="text-center card-title mb-4">Admin Dashboard</h2>
 
       <Row className="justify-content-center">
         <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
@@ -19,9 +29,10 @@ function AdminDashboard() {
             <Card.Body>
               <h5 className="card-title">Manage Songs</h5>
               <p className="card-text">Clear all songs from the database.</p>
-              <Button variant="danger" onClick={clearSongs} block>
+              <Button variant="danger" onClick={() => setShowModal(true)} block>
                 Clear Songs
               </Button>
+              <Button className="btnSpace">View Song List</Button>
             </Card.Body>
           </Card>
         </Col>
@@ -57,7 +68,6 @@ function AdminDashboard() {
         <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
           <Card className="shadow-sm border-0">
             <Card.Body>
-              <p style={{ color: 'red' }}>DOESNT WORK YET</p>
               <h5 className="card-title">Create Event</h5>
               <p className="card-text">Create a new event for your platform.</p>
               <Link to="/CreateEvent">
@@ -69,6 +79,22 @@ function AdminDashboard() {
           </Card>
         </Col>
       </Row>
+
+      {/* Confirmation Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete all songs?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Delete All
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 }
