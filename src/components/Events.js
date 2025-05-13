@@ -92,9 +92,9 @@ function Events() {
                                 <small>Location: {event.Location}</small><br /><br />
                                 <p>{event.Details}</p>
                             </Card.Text>
-                            <Button variant="primary" href="https://events.circuitree.com/campsiloam" target="_blank">
-                                Register Now
-                            </Button>
+                            {/* <Button variant="primary" href="https://events.circuitree.com/campsiloam" target="_blank"> */}
+                            {/* Register Now */}
+                            {/* </Button> */}
                         </Card.Body>
                     </Card>
                 </Col>
