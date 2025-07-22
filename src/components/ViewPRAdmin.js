@@ -76,7 +76,7 @@ function ViewPrayerRequests() {
                             <tbody>
                                 {List.map((request, index) => (
                                     <tr key={index}>
-                                        <td><Button variant="danger">Delete</Button></td>
+                                        <td><Button variant="danger" onClick={() => handleDelete(request.id)}>Delete</Button></td>
                                         <td>{request.description}</td>
                                         <td>{request.User}</td>
                                     </tr>

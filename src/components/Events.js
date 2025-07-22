@@ -36,6 +36,7 @@ function Events() {
                 setEvents(fetchedEvents);
                 setUpcomingEvents(upcoming);
                 setPastEvents(past);
+                console.log('Upcoming events:', upcoming);
 
                 fetchEventImages(fetchedEvents);
             } catch (error) {
@@ -44,6 +45,21 @@ function Events() {
         };
         fetchEvents();
     }, []);
+
+    function handleRegister(eventId) {
+        // Handle registration logic here
+        console.log('Registering for event with User:', localStorage.getItem('userID'));
+        console.log(`Registering for event with ID: ${eventId}`);
+        Axios.post('https://hhbc-snw-api.netlify.app/api/registerForEvent', {
+            userId: localStorage.getItem('userID'),
+            eventId: eventId,
+        }).then(response => {
+            console.log('Registration successful:', response.data);
+        })
+            .catch(error => {
+                console.log(error);
+            });
+    }
 
     const fetchEventImages = async (events) => {
         if (!events.length) return;
@@ -92,9 +108,9 @@ function Events() {
                                 <small>Location: {event.Location}</small><br /><br />
                                 <p>{event.Details}</p>
                             </Card.Text>
-                            {/* <Button variant="primary" href="https://events.circuitree.com/campsiloam" target="_blank"> */}
-                            {/* Register Now */}
-                            {/* </Button> */}
+                            <Button variant="primary" onClick={() => handleRegister(event.idEvents)}>
+                                Register Now
+                            </Button>
                         </Card.Body>
                     </Card>
                 </Col>

@@ -17,11 +17,15 @@ function ViewProfile() {
 
     // Fetch user details when the page loads
     useEffect(() => {
-        if (user && user.id) {
-            Axios.post('https://hhbc-snw-api.netlify.app/api/userById', { USERID: user.id })
+        console.log('User ID:', user.username.id);
+        var userID = user.username.id
+        if (user && user.username.id) {
+            console.log('Fetching user profile for ID:', userID);
+            Axios.get(`https://hhbc-snw-api.netlify.app/api/userById/${userID}`,)
                 .then((res) => {
-                    if (res.data && res.data.length > 0) {
-                        const { PROFILEPIC, username, emailAddr, firstName, lastName, phoneNum } = res.data[0];
+                    if (res.data) {
+                        console.log('User profile data:', res.data);
+                        const { PROFILEPIC, username, emailAddr, firstName, lastName, phoneNum } = res.data;
                         setProfilePic(PROFILEPIC || profilePlaceholder);
                         setUserDetails({
                             username,

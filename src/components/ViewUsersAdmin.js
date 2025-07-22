@@ -136,13 +136,15 @@ function ViewUsersAdmin() {
                                         <td>
                                             {editingIndex === index ? (
                                                 <>
-                                                    <Button onClick={handleSave}>Save</Button>
-                                                    <Button onClick={handleCancel} className="ml-2">Cancel</Button>
+                                                    <Row><Button onClick={handleSave}>Save</Button></Row>
+                                                    <Row><Button onClick={handleCancel} className="ml-2" variant="warning">Cancel</Button></Row>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <Button onClick={() => handleEdit(index)}>Edit</Button>
-                                                    <Button onClick={() => handleDelete(request.id)} className="ml-2" variant="danger">Delete</Button>
+                                                    <Col>
+                                                        <Row><Button onClick={() => handleEdit(index)}>Edit</Button></Row>
+                                                        <Row><Button onClick={() => handleDelete(request.id)} className="ml-2" variant="danger">Delete</Button></Row>
+                                                    </Col>
                                                 </>
                                             )}
                                         </td>

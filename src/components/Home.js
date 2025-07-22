@@ -2,6 +2,21 @@ import Carousel from 'react-bootstrap/Carousel';
 import Img1 from '../images/YouthGroup.jpg';
 import Img2 from '../images/YouthCamp.jpg';
 import Img3 from '../images/YouthPraying.jpg';
+import Img4 from '../images/YouthCamp2025.jpg';
+import Img5 from '../images/YouthCamp2025-1.jpg';
+import Img6 from '../images/YouthCamp2025-2.jpg';
+import Img7 from '../images/YouthCamp2025-3.jpg';
+import Img8 from '../images/YouthCamp2025-4.jpg';
+import Img9 from '../images/YouthCamp2025-5.jpg';
+import Img10 from '../images/YouthCamp2025-6.jpg';
+import Img11 from '../images/YouthCamp2025-7.jpg';
+import Img12 from '../images/YouthCamp2025-8.jpg';
+import Img13 from '../images/YouthCamp2025-9.jpg';
+import Img14 from '../images/YouthCamp2025-10.jpg';
+import Img15 from '../images/YouthCamp2025-11.jpg';
+import Img16 from '../images/YouthCamp2025-12.jpg';
+import Img17 from '../images/YouthCamp2025-13.jpg';
+
 import { Button, Container } from 'react-bootstrap';
 import DailyBibleVerse from './DailyBibleVerse';
 const YouVersion = require("@glowstudent/youversion");
@@ -15,7 +30,7 @@ function Home() {
         <>
             {/* Carousel Section */}
             <Carousel>
-                <Carousel.Item>
+                {/* <Carousel.Item>
                     <img src={Img1} alt="Youth Group" className="d-block carousel-img" />
                     <Carousel.Caption>
                         <h3 className="display-4">Building Community</h3>
@@ -35,6 +50,36 @@ function Home() {
                         <h3 className="display-4">Power of Prayer</h3>
                         <p className="lead gray">Together, we grow in faith through the power of prayer and community.</p>
                     </Carousel.Caption>
+                </Carousel.Item> */}
+                <Carousel.Item>
+                    <img src={Img4} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item>
+                <Carousel.Item>
+                    <img src={Img5} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img6} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img7} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img8} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img9} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img10} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img11} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img12} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img13} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img14} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img15} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img16} alt="Youth Praying" className="d-block carousel-img" />
+                </Carousel.Item><Carousel.Item>
+                    <img src={Img17} alt="Youth Praying" className="d-block carousel-img" />
                 </Carousel.Item>
             </Carousel>
 
@@ -56,7 +101,7 @@ function Home() {
                     </ul>
                     <div className="mt-4">
                         <h1 className="text-decoration-underline">Announcements</h1>
-                        
+
                     </div>
 
 

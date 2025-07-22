@@ -20,6 +20,8 @@ function ViewPrayerRequests() {
         fetchData();
     }, []);
 
+    
+
     // If there's an error, display the error message
     if (error) {
         return (

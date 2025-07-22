@@ -29,10 +29,16 @@ function AdminDashboard() {
             <Card.Body>
               <h5 className="card-title">Manage Songs</h5>
               <p className="card-text">Clear all songs from the database.</p>
-              <Button variant="danger" onClick={() => setShowModal(true)} block>
-                Clear Songs
-              </Button>
-              <Button className="btnSpace">View Song List</Button>
+              <Row>
+                <Col>
+                  <Button variant="danger" onClick={() => setShowModal(true)} block>
+                    Clear Songs
+                  </Button>
+                </Col>
+                <Col><Link to="/ViewSongsAdmin">
+                  <Button className="btnSpace">View Song List</Button>
+                </Link></Col>
+              </Row>
             </Card.Body>
           </Card>
         </Col>
