@@ -88,9 +88,9 @@ function MainNavigation() {
                                     <span className="fw-bold me-3 test">Hello, {JSON.parse(localStorage.getItem('user').trim())}</span>
                                 </div>
                                 <NavDropdown title={user.firstname} id="user-dropdown">
-                                    <NavDropdown.Item as={Link} to="/ViewProfile">
+                                    {/* <NavDropdown.Item as={Link} to="/ViewProfile">
                                         Profile
-                                    </NavDropdown.Item>
+                                    </NavDropdown.Item> */}
                                     <NavDropdown.Item onClick={handleLogout}>
                                         Logout
                                     </NavDropdown.Item>

@@ -29,28 +29,7 @@ function Home() {
     return (
         <>
             {/* Carousel Section */}
-            <Carousel>
-                {/* <Carousel.Item>
-                    <img src={Img1} alt="Youth Group" className="d-block carousel-img" />
-                    <Carousel.Caption>
-                        <h3 className="display-4">Building Community</h3>
-                        <p className="lead gray">Join our Youth Group for meaningful connections and growth.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={Img2} alt="Youth Camp" className="d-block carousel-img" />
-                    <Carousel.Caption>
-                        <h3 className="display-4">Youth Camp Adventures</h3>
-                        <p className="lead gray">Explore new horizons and experience life-changing moments at Youth Camp.</p>
-                    </Carousel.Caption>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <img src={Img3} alt="Youth Praying" className="d-block carousel-img" />
-                    <Carousel.Caption>
-                        <h3 className="display-4">Power of Prayer</h3>
-                        <p className="lead gray">Together, we grow in faith through the power of prayer and community.</p>
-                    </Carousel.Caption>
-                </Carousel.Item> */}
+            <Carousel fade interval={4000} className="carousel-container">
                 <Carousel.Item>
                     <img src={Img4} alt="Youth Praying" className="d-block carousel-img" />
                 </Carousel.Item>

@@ -89,18 +89,18 @@ function Events() {
         }
     };
 
-    const renderEvents = (eventList) => (
+    const renderEvents = (eventList, isUpcoming = false) => (
         <Row className="justify-content-center">
             {eventList.map((event) => (
                 <Col key={event.id} md={4} sm={6} xs={12} className="mb-4">
                     <Card className="event-card">
                         {/* Uncomment this if you want images:
-                        <Card.Img
-                            variant="top"
-                            src={eventImages[event.id] || 'https://via.placeholder.com/300'}
-                            alt={event.Title}
-                            className="event-image"
-                        /> */}
+                    <Card.Img
+                        variant="top"
+                        src={eventImages[event.id] || 'https://via.placeholder.com/300'}
+                        alt={event.Title}
+                        className="event-image"
+                    /> */}
                         <Card.Body>
                             <Card.Title>{event.Title}</Card.Title>
                             <Card.Text>
@@ -108,9 +108,11 @@ function Events() {
                                 <small>Location: {event.Location}</small><br /><br />
                                 <p>{event.Details}</p>
                             </Card.Text>
-                            <Button variant="primary" onClick={() => handleRegister(event.idEvents)}>
-                                Register Now
-                            </Button>
+                            {isUpcoming && (
+                                <Button variant="primary" onClick={() => handleRegister(event.idEvents)}>
+                                    Register Now
+                                </Button>
+                            )}
                         </Card.Body>
                     </Card>
                 </Col>
@@ -118,11 +120,12 @@ function Events() {
         </Row>
     );
 
+
     return (
         <Container>
             <Container className='Upcoming Events'>
                 <h1 className="text-center my-4">Upcoming Events</h1>
-                {renderEvents(upcomingEvents)}
+                {renderEvents(upcomingEvents, true)}
             </Container>
 
             <Container className='Past Events'>

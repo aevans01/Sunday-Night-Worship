@@ -6,16 +6,24 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 
 function AdminDashboard() {
-  const [showModal, setShowModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [deletedCount, setDeletedCount] = useState(0);
 
   const handleDelete = async () => {
     try {
-      await Axios.post(`https://hhbc-snw-api.netlify.app/api/deleteSongs`);
-      setShowModal(false);
-      // Optionally show a success alert here
+      const response = await Axios.post(`https://hhbc-snw-api.netlify.app/api/deleteSongs`);
+
+      // Assume API returns something like: { deletedCount: 42 }
+      const count = response.data?.deletedCount || 0;
+
+      setDeletedCount(count);
+      setShowConfirmModal(false); // Close confirmation
+      setShowFeedbackModal(true); // Show feedback
     } catch (error) {
       console.error('Error deleting songs:', error);
-      // Optionally show an error alert here
+      setShowConfirmModal(false);
+      // Optionally you could show an error modal here
     }
   };
 
@@ -24,6 +32,7 @@ function AdminDashboard() {
       <h2 className="text-center card-title mb-4">Admin Dashboard</h2>
 
       <Row className="justify-content-center">
+        {/* Manage Songs Card */}
         <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
           <Card className="shadow-sm border-0">
             <Card.Body>
@@ -31,18 +40,21 @@ function AdminDashboard() {
               <p className="card-text">Clear all songs from the database.</p>
               <Row>
                 <Col>
-                  <Button variant="danger" onClick={() => setShowModal(true)} block>
+                  <Button variant="danger" onClick={() => setShowConfirmModal(true)} block>
                     Clear Songs
                   </Button>
                 </Col>
-                <Col><Link to="/ViewSongsAdmin">
-                  <Button className="btnSpace">View Song List</Button>
-                </Link></Col>
+                <Col>
+                  <Link to="/ViewSongsAdmin">
+                    <Button className="btnSpace">View Song List</Button>
+                  </Link>
+                </Col>
               </Row>
             </Card.Body>
           </Card>
         </Col>
 
+        {/* Other Admin Cards */}
         <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
           <Card className="shadow-sm border-0">
             <Card.Body>
@@ -87,17 +99,34 @@ function AdminDashboard() {
       </Row>
 
       {/* Confirmation Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to delete all songs?</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <Button variant="secondary" onClick={() => setShowConfirmModal(false)}>
             Cancel
           </Button>
           <Button variant="danger" onClick={handleDelete}>
-            Delete All
+            Yes, Delete All
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Feedback Modal */}
+      <Modal show={showFeedbackModal} onHide={() => setShowFeedbackModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Deletion Complete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {deletedCount > 0
+            ? `${deletedCount} song${deletedCount !== 1 ? 's' : ''} deleted successfully.`
+            : 'No songs were deleted.'}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setShowFeedbackModal(false)}>
+            OK
           </Button>
         </Modal.Footer>
       </Modal>

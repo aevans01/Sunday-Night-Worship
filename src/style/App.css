@@ -364,7 +364,7 @@ img.img-fluid {
 .carousel-img {
   width: auto;
   /* Ensures the image covers the entire width of the container */
-  height: 800px;
+  height: 700px;
   display: block;
   margin: auto;
 }
