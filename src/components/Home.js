@@ -18,8 +18,8 @@ import Img16 from '../images/YouthCamp2025-12.jpg';
 import Img17 from '../images/YouthCamp2025-13.jpg';
 
 import { Button, Container } from 'react-bootstrap';
-import DailyBibleVerse from './DailyBibleVerse';
-const YouVersion = require("@glowstudent/youversion");
+// import DailyBibleVerse from './DailyBibleVerse';
+// const YouVersion = require("@glowstudent/youversion");
 
 function Home() {
     // async function test() {
