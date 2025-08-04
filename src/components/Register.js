@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
+import Modal from "react-bootstrap/Modal";
 import Axios from "axios";
 import { useUser } from "../UserContext";
 
@@ -17,6 +18,7 @@ const RegisterForm = () => {
     });
 
     const [status, setStatus] = useState({ success: null, message: "" });
+    const [showModal, setShowModal] = useState(false);
     const { login } = useUser();
     const navigate = useNavigate();
 
@@ -27,39 +29,44 @@ const RegisterForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // Simple client-side validation
+        console.log("Submitting registration with data:", formData);
         if (!formData.email || !formData.username || !formData.password) {
             setStatus({ success: false, message: "Please fill in all required fields." });
+            setShowModal(true);
             return;
         }
 
-        // API request for registration
         Axios.post(`https://hhbc-snw-api.netlify.app/api/register`, formData)
             .then((response) => {
+                console.log("Registration response:", response.data);
                 if (response.data.success) {
-                    setStatus({ success: true, message: "Registration successful! Redirecting to home..." });
-                    login(response.data.user); // Automatically log in the user after registration
-                    setTimeout(() => navigate("/"), 2000); // Redirect after success
+                    setStatus({ success: true, message: "Registration successful!" });
+                    //login(response.data.user);
+                    setShowModal(true);
                 } else {
                     setStatus({ success: false, message: response.data.message || "Registration failed." });
+                    setShowModal(true);
                 }
             })
             .catch((error) => {
                 console.error("Error during registration:", error);
                 setStatus({ success: false, message: "An error occurred. Please try again later." });
+                setShowModal(true);
             });
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        if (status.success) {
+            navigate("/");
+        }
     };
 
     return (
         <div className="register-container">
             <h2 className="text-center">Create an Account</h2>
             <p className="text-center text-muted">Fill out the form below to register.</p>
-            {status.message && (
-                <Alert variant={status.success ? "success" : "danger"} className="text-center">
-                    {status.message}
-                </Alert>
-            )}
+
             <Form className="register-form" onSubmit={handleSubmit}>
                 <Form.Group controlId="formEmail" className="mb-3">
                     <Form.Label>Email Address *</Form.Label>
@@ -137,6 +144,21 @@ const RegisterForm = () => {
                     Already have an account? <a href="/Login">Log in here</a>.
                 </p>
             </Form>
+
+            {/* Feedback Modal */}
+            <Modal show={showModal} onHide={handleModalClose} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>{status.success ? "Success" : "Error"}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>{status.message}</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={status.success ? "success" : "secondary"} onClick={handleModalClose}>
+                        OK
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };

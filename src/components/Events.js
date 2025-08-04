@@ -9,6 +9,7 @@ function Events() {
     const [pastEvents, setPastEvents] = useState([]);
     const [feedbackMessage, setFeedbackMessage] = useState(null);
     const [feedbackVariant, setFeedbackVariant] = useState('success'); // 'success' or 'danger'
+    const [registeredEventIds, setRegisteredEventIds] = useState([]);
 
     // Fetch all events
     useEffect(() => {
@@ -46,6 +47,28 @@ function Events() {
         fetchEvents();
     }, []);
 
+    // Fetch registered events for the user
+    useEffect(() => {
+        const userId = localStorage.getItem('userID');
+        if (!userId) return;
+
+        const fetchRegisteredEvents = async () => {
+            try {
+                console.log(`Fetching registered events for user ID: ${userId}`);
+                const response = await Axios.post('https://hhbc-snw-api.netlify.app/api/getUserRegistrations', {
+                    userId,
+                });
+
+                const registeredIds = response.data.map(reg => reg.eventId);
+                setRegisteredEventIds(registeredIds);
+            } catch (error) {
+                console.error('Error fetching registered events:', error);
+            }
+        };
+
+        fetchRegisteredEvents();
+    }, []);
+
     // Auto-clear feedback after 5 seconds
     useEffect(() => {
         if (feedbackMessage) {
@@ -72,6 +95,7 @@ function Events() {
             .then(response => {
                 setFeedbackVariant('success');
                 setFeedbackMessage('Successfully registered for the event!');
+                setRegisteredEventIds(prev => [...prev, eventId]); // ✅ Optional improvement
                 console.log('Registration successful:', response.data);
             })
             .catch(error => {
@@ -114,10 +138,10 @@ function Events() {
             {eventList.map((event) => (
                 <Col key={event.id} md={4} sm={6} xs={12} className="mb-4">
                     <Card className="event-card">
-                        {/* Uncomment if using images:
-                        <Card.Img
+                        {/* Uncomment if using images: */}
+                        {/* <Card.Img
                             variant="top"
-                            src={eventImages[event.id] || 'https://via.placeholder.com/300'}
+                            src={eventImages[event.idEvents] || 'https://via.placeholder.com/300'}
                             alt={event.Title}
                             className="event-image"
                         /> */}
@@ -129,9 +153,15 @@ function Events() {
                                 <p>{event.Details}</p>
                             </Card.Text>
                             {isUpcoming && (
-                                <Button variant="primary" onClick={() => handleRegister(event.idEvents)}>
-                                    Register Now
-                                </Button>
+                                registeredEventIds.includes(event.idEvents) ? (
+                                    <Button variant="secondary" disabled>
+                                        Already Registered
+                                    </Button>
+                                ) : (
+                                    <Button variant="primary" onClick={() => handleRegister(event.idEvents)}>
+                                        Register Now
+                                    </Button>
+                                )
                             )}
                         </Card.Body>
                     </Card>
