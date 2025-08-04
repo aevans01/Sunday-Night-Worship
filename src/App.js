@@ -19,6 +19,7 @@ import ViewProfile from './components/ViewProfile';
 import ViewPRAdmin from './components/ViewPRAdmin';
 import ViewSongsAdmin from './components/ViewSongsAdmin';
 import ViewUsersAdmin from './components/ViewUsersAdmin';
+import ViewEventsAdmin from './components/ViewEventsAdmin';
 import PhotoUpload from './components/PhotoUpload';
 import PhotoAlbum from './components/PhotoAlbum';
 import Events from './components/Events';
@@ -54,6 +55,11 @@ class App extends React.Component {
                         <Route path="/ViewUsersAdmin" element={
                             <ProtectedRoute roles={["1"]}>
                                 <ViewUsersAdmin />
+                            </ProtectedRoute>
+                        } />
+                        <Route path="/ViewEventsAdmin" element={
+                            <ProtectedRoute roles={["1"]}>
+                                <ViewEventsAdmin />
                             </ProtectedRoute>
                         } />
                         <Route path="/SongPicker" element={<SongPicker />} />

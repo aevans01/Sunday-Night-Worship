@@ -7,6 +7,8 @@ function Events() {
     const [eventImages, setEventImages] = useState({});
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [pastEvents, setPastEvents] = useState([]);
+    const [feedbackMessage, setFeedbackMessage] = useState(null);
+    const [feedbackVariant, setFeedbackVariant] = useState('success'); // 'success' or 'danger'
 
     // Fetch all events
     useEffect(() => {
@@ -16,7 +18,6 @@ function Events() {
                 const fetchedEvents = response.data;
 
                 const now = new Date();
-
                 const upcoming = [];
                 const past = [];
 
@@ -29,34 +30,53 @@ function Events() {
                     }
                 });
 
-                // Optional: sort by date
                 upcoming.sort((a, b) => new Date(a.Date) - new Date(b.Date));
                 past.sort((a, b) => new Date(b.Date) - new Date(a.Date));
 
                 setEvents(fetchedEvents);
                 setUpcomingEvents(upcoming);
                 setPastEvents(past);
-                console.log('Upcoming events:', upcoming);
 
                 fetchEventImages(fetchedEvents);
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
         };
+
         fetchEvents();
     }, []);
 
+    // Auto-clear feedback after 5 seconds
+    useEffect(() => {
+        if (feedbackMessage) {
+            const timer = setTimeout(() => {
+                setFeedbackMessage(null);
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [feedbackMessage]);
+
     function handleRegister(eventId) {
-        // Handle registration logic here
-        console.log('Registering for event with User:', localStorage.getItem('userID'));
-        console.log(`Registering for event with ID: ${eventId}`);
+        const userId = localStorage.getItem('userID');
+
+        if (!userId) {
+            setFeedbackVariant('danger');
+            setFeedbackMessage('You must be logged in to register for an event.');
+            return;
+        }
+
         Axios.post('https://hhbc-snw-api.netlify.app/api/registerForEvent', {
-            userId: localStorage.getItem('userID'),
-            eventId: eventId,
-        }).then(response => {
-            console.log('Registration successful:', response.data);
+            userId,
+            eventId,
         })
+            .then(response => {
+                setFeedbackVariant('success');
+                setFeedbackMessage('Successfully registered for the event!');
+                console.log('Registration successful:', response.data);
+            })
             .catch(error => {
+                setFeedbackVariant('danger');
+                setFeedbackMessage('Failed to register for the event. Please try again later.');
                 console.log(error);
             });
     }
@@ -94,13 +114,13 @@ function Events() {
             {eventList.map((event) => (
                 <Col key={event.id} md={4} sm={6} xs={12} className="mb-4">
                     <Card className="event-card">
-                        {/* Uncomment this if you want images:
-                    <Card.Img
-                        variant="top"
-                        src={eventImages[event.id] || 'https://via.placeholder.com/300'}
-                        alt={event.Title}
-                        className="event-image"
-                    /> */}
+                        {/* Uncomment if using images:
+                        <Card.Img
+                            variant="top"
+                            src={eventImages[event.id] || 'https://via.placeholder.com/300'}
+                            alt={event.Title}
+                            className="event-image"
+                        /> */}
                         <Card.Body>
                             <Card.Title>{event.Title}</Card.Title>
                             <Card.Text>
@@ -120,15 +140,25 @@ function Events() {
         </Row>
     );
 
-
     return (
         <Container>
-            <Container className='Upcoming Events'>
+            {/* Feedback Message */}
+            {feedbackMessage && (
+                <Container className="my-3">
+                    <div className={`alert alert-${feedbackVariant}`} role="alert">
+                        {feedbackMessage}
+                    </div>
+                </Container>
+            )}
+
+            {/* Upcoming Events */}
+            <Container className="Upcoming Events">
                 <h1 className="text-center my-4">Upcoming Events</h1>
                 {renderEvents(upcomingEvents, true)}
             </Container>
 
-            <Container className='Past Events'>
+            {/* Past Events */}
+            <Container className="Past Events">
                 <h1 className="text-center my-4">Past Events</h1>
                 {renderEvents(pastEvents)}
             </Container>

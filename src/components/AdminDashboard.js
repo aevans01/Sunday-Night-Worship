@@ -46,7 +46,7 @@ function AdminDashboard() {
                 </Col>
                 <Col>
                   <Link to="/ViewSongsAdmin">
-                    <Button className="btnSpace">View Song List</Button>
+                    <Button className="btnSpace">Song List</Button>
                   </Link>
                 </Col>
               </Row>
@@ -88,11 +88,22 @@ function AdminDashboard() {
             <Card.Body>
               <h5 className="card-title">Create Event</h5>
               <p className="card-text">Create a new event for your platform.</p>
-              <Link to="/CreateEvent">
-                <Button variant="warning" block>
-                  Create Event
-                </Button>
-              </Link>
+              <Row>
+                <Col>
+                  <Link to="/CreateEvent">
+                    <Button variant="warning" block>
+                      Create Event
+                    </Button>
+                  </Link>
+                </Col>
+                <Col>
+                  <Link to="/ViewEventsAdmin">
+                    <Button block>
+                      View Events
+                    </Button>
+                  </Link>
+                </Col>
+              </Row>
             </Card.Body>
           </Card>
         </Col>
