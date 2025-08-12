@@ -4,6 +4,9 @@ import { useUser } from '../UserContext';
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
 import Axios from "axios";
 
+// ✅ Always send credentials with API calls
+Axios.defaults.withCredentials = true;
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -13,24 +16,22 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Axios.post('https://hhbc-snw-api.netlify.app/api/login', { email: username, password })
+
+        Axios.post('https://hhbc-snw-api.netlify.app/api/login',
+            { email: username, password },
+            { withCredentials: true } // important for cookies
+        )
             .then((response) => {
                 if (response.data.success) {
-                    console.log(response.data.user.firstName)
-                    // Store the JWT token in localStorage
-                    localStorage.setItem('token', response.data.token);
-                    localStorage.setItem('user', JSON.stringify(response.data.user.firstName));
-                    // Set user information in the UserContext
+                    // Store user in context (session cookie is handled automatically)
                     login(response.data.user, response.data.user.role);
-                    localStorage.setItem('userID', JSON.stringify(response.data.user.id)); 
-                    console.log(response.data.user);
-                    // Navigate to the homepage or a protected route
-                    navigate('/');
+                    navigate('/'); // redirect after login
+                } else {
+                    setError(response.data.message || 'Login failed.');
                 }
             })
-            .catch((error) => {
-                // Handle errors (e.g., incorrect username/password)
-                setError(error.response?.data?.message || 'An error occurred during login.');
+            .catch((err) => {
+                setError(err.response?.data?.message || 'An error occurred during login.');
             });
     };
 
