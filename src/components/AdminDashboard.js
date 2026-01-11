@@ -131,9 +131,7 @@ function AdminDashboard() {
           <Modal.Title>Deletion Complete</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {deletedCount > 0
-            ? `${deletedCount} song${deletedCount !== 1 ? 's' : ''} deleted successfully.`
-            : 'No songs were deleted.'}
+          <p>Songs deleted successfully.</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={() => setShowFeedbackModal(false)}>
