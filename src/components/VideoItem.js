@@ -47,7 +47,7 @@ const VideoItem = ({ video, handleVideoSelect }) => {
         // }
 
         // Proceed to add the song if it's not a duplicate
-        Axios.post(`https://deploy-preview-2--hhbc-snw-api.netlify.app/api/addSongs`, {
+        Axios.post(`https://hhbc-snw-api.netlify.app/api/addSongs`, {
             VideoSource: video.id.videoId,
             VideoTitle: video.snippet.title,
             VideoTitleShortened: video.snippet.title,
