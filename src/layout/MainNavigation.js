@@ -29,11 +29,10 @@ function MainNavigation() {
         }
     }, [user]);
 
-    const { logout } = useUser();
-
     const handleLogout = () => {
-        Axios.post('https://hhbc-snw-api.netlify.app/api/logout')
-            .then(() => logout());
+        setUser(null);
+        localStorage.clear();
+        navigate("/");
     };
 
     // Check if the user is an admin
