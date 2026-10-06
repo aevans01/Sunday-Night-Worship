@@ -12,7 +12,7 @@ function AdminDashboard() {
 
   const handleDelete = async () => {
     try {
-      const response = await Axios.post(`https://hhbc-snw-api.netlify.app/api/deleteSongs`);
+      const response = await Axios.post(`/api/deleteSongs`);
 
       // Assume API returns something like: { deletedCount: 42 }
       const count = response.data?.deletedCount || 0;
@@ -131,7 +131,9 @@ function AdminDashboard() {
           <Modal.Title>Deletion Complete</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Songs deleted successfully.</p>
+          {deletedCount > 0
+            ? `${deletedCount} song${deletedCount !== 1 ? 's' : ''} deleted successfully.`
+            : 'No songs were deleted.'}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={() => setShowFeedbackModal(false)}>

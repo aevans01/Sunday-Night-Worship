@@ -20,7 +20,7 @@ const VideoItem = ({ video, handleVideoSelect }) => {
 
     const checkIfVideoExists = async (videoId) => {
         try {
-            const response = await Axios.get(`https://hhbc-snw-api.netlify.app/api/checkSongExists?videoId=${videoId}`);
+            const response = await Axios.get(`/api/checkSongExists?videoId=${videoId}`);
             return response.data.exists; // Assuming the API returns a boolean indicating if the song exists
         } catch (error) {
             console.error('Error checking if video exists', error);
@@ -47,7 +47,7 @@ const VideoItem = ({ video, handleVideoSelect }) => {
         // }
 
         // Proceed to add the song if it's not a duplicate
-        Axios.post(`https://hhbc-snw-api.netlify.app/api/addSongs`, {
+        Axios.post(`/api/addSongs`, {
             VideoSource: video.id.videoId,
             VideoTitle: video.snippet.title,
             VideoTitleShortened: video.snippet.title,

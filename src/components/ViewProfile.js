@@ -17,11 +17,10 @@ function ViewProfile() {
 
     // Fetch user details when the page loads
     useEffect(() => {
-        console.log('User ID:', user.username.id);
-        var userID = user.username.id
-        if (user && user.username.id) {
+        const userID = user?.id;
+        if (userID) {
             console.log('Fetching user profile for ID:', userID);
-            Axios.get(`https://hhbc-snw-api.netlify.app/api/userById/${userID}`,)
+            Axios.get(`/api/userById/${userID}`,)
                 .then((res) => {
                     if (res.data) {
                         console.log('User profile data:', res.data);

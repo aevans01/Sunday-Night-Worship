@@ -12,7 +12,7 @@ function ViewUsersAdmin() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await Axios.get(`https://deploy-preview-3--hhbc-snw-api.netlify.app//api/getUsers`);
+                const response = await Axios.get(`/api/getUsers`);
                 if (response.data) {
                     setList(response.data); // Store the users
                 }
@@ -26,7 +26,7 @@ function ViewUsersAdmin() {
     // Handle the "Edit" button click
     const handleEdit = (index) => {
         setEditingIndex(index);
-        setEditedUser({ ...List[index] }); // Initialize the edited user data
+        setEditedUser({ ...List[index], password: '' }); // Initialize the edited user data
     };
 
     // Handle input changes for editable fields
@@ -43,14 +43,14 @@ function ViewUsersAdmin() {
         try {
             // Send the updated user data to the backend
             const response = await Axios.put(
-                `https://deploy-preview-3--hhbc-snw-api.netlify.app/api/updateUser/${editedUser.id}`,
+                `/api/updateUser/${editedUser.id}`,
                 editedUser
             );
 
             if (response.status === 200) {
                 // Update the list with the edited user data
                 const updatedList = List.map((user, index) =>
-                    index === editingIndex ? editedUser : user
+                    index === editingIndex ? { ...editedUser, password: undefined } : user
                 );
                 setList(updatedList);
                 setEditingIndex(null);
@@ -89,7 +89,7 @@ function ViewUsersAdmin() {
 
         try {
             const response = await Axios.delete(
-                `https://deploy-preview-3--hhbc-snw-api.netlify.app/api/deleteUser/${id}`
+                `/api/deleteUser/${id}`
             );
 
             if (response.status === 200) {
@@ -163,13 +163,15 @@ function ViewUsersAdmin() {
                                         <td>
                                             {editingIndex === index ? (
                                                 <input
-                                                    type="text"
+                                                    type="password"
                                                     name="password"
-                                                    value={editedUser.password}
+                                                    autoComplete="new-password"
+                                                    placeholder="Leave blank to keep password"
+                                                    value={editedUser.password || ''}
                                                     onChange={handleChange}
                                                 />
                                             ) : (
-                                                request.password
+                                                '••••••••'
                                             )}
                                         </td>
                                         <td>

@@ -1,25 +1,23 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Navbar, Nav, NavDropdown, Container, Button, Image } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useUser } from "../UserContext";
 import profilePlaceholder from "../images/profilePic.png";
 import "../style/MainNavigation.css"; // Ensure to update this CSS file for alignment and modern look
 
 function MainNavigation() {
-    const { user, setUser } = useUser();
+    const { user, loading, sessionError, refreshSession, logout } = useUser();
+    const [logoutError, setLogoutError] = useState(null);
     const [profilePic, setProfilePic] = useState(profilePlaceholder);
-    const navigate = useNavigate();
 
     useEffect(() => {
         if (user && user.id) {
             // Fetch user profile picture
-            Axios.post("https://hhbc-snw-api.netlify.app/api/userById", { USERID: user.id })
+            Axios.get(`/api/userById/${user.id}`)
                 .then((res) => {
-                    if (res.data && res.data.length > 0) {
-                        console.log(res.data[0]);
-                        setProfilePic(res.data[0].PROFILEPIC || profilePlaceholder);
+                    if (res.data) {
+                        setProfilePic(res.data.PROFILEPIC || profilePlaceholder);
                     }
                 })
                 .catch((err) => {
@@ -29,14 +27,14 @@ function MainNavigation() {
         }
     }, [user]);
 
-    const handleLogout = () => {
-        setUser(null);
-        localStorage.clear();
-        navigate("/");
+    const handleLogout = async () => {
+        setLogoutError(null);
+        try { await logout(); }
+        catch { setLogoutError('Could not sign out. Please try again.'); }
     };
 
     // Check if the user is an admin
-    const isAdmin = user && user.role === "1"; // Adjust this condition to match your user data structure
+    const isAdmin = user && String(user.role) === "1"; // Adjust this condition to match your user data structure
 
     return (
         <Navbar bg="light" expand="lg" className="shadow-sm">
@@ -74,7 +72,10 @@ function MainNavigation() {
                         )}
                     </Nav>
                     <Nav className="align-items-center">
-                        {user ? (
+                        {logoutError && <span role="alert">{logoutError}</span>}
+                        {loading ? <span role="status">Checking session…</span> : sessionError ? (
+                            <Button variant="outline-secondary" onClick={refreshSession}>Retry session check</Button>
+                        ) : user ? (
                             <>
                                 <div className="d-flex align-items-center">
                                     <Image
@@ -85,9 +86,9 @@ function MainNavigation() {
                                         className="me-2"
                                         alt="User profile"
                                     />
-                                    <span className="fw-bold me-3 test">Hello, {JSON.parse(localStorage.getItem('user').trim())}</span>
+                                    <span className="fw-bold me-3 test">Hello, {user.firstName || user.username}</span>
                                 </div>
-                                <NavDropdown title={user.firstname} id="user-dropdown">
+                                <NavDropdown title={user.firstName || user.username} id="user-dropdown">
                                     {/* <NavDropdown.Item as={Link} to="/ViewProfile">
                                         Profile
                                     </NavDropdown.Item> */}

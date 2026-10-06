@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Col, Row, Container } from 'react-bootstrap';
 import Axios from 'axios';
+import { useUser } from '../UserContext';
 
 function Events() {
+    const { user } = useUser();
     const [events, setEvents] = useState([]);
     const [eventImages, setEventImages] = useState({});
     const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -15,7 +17,7 @@ function Events() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await Axios.get('https://hhbc-snw-api.netlify.app/api/getEvents');
+                const response = await Axios.get('/api/getEvents');
                 const fetchedEvents = response.data;
 
                 const now = new Date();
@@ -49,13 +51,13 @@ function Events() {
 
     // Fetch registered events for the user
     useEffect(() => {
-        const userId = localStorage.getItem('userID');
-        if (!userId) return;
+        const userId = user?.id;
+        if (!userId) { setRegisteredEventIds([]); return; }
 
         const fetchRegisteredEvents = async () => {
             try {
                 console.log(`Fetching registered events for user ID: ${userId}`);
-                const response = await Axios.post('https://hhbc-snw-api.netlify.app/api/getUserRegistrations', {
+                const response = await Axios.post('/api/getUserRegistrations', {
                     userId,
                 });
 
@@ -67,7 +69,7 @@ function Events() {
         };
 
         fetchRegisteredEvents();
-    }, []);
+    }, [user]);
 
     // Auto-clear feedback after 5 seconds
     useEffect(() => {
@@ -80,7 +82,7 @@ function Events() {
     }, [feedbackMessage]);
 
     function handleRegister(eventId) {
-        const userId = localStorage.getItem('userID');
+        const userId = user?.id;
 
         if (!userId) {
             setFeedbackVariant('danger');
@@ -88,7 +90,7 @@ function Events() {
             return;
         }
 
-        Axios.post('https://hhbc-snw-api.netlify.app/api/registerForEvent', {
+        Axios.post('/api/registerForEvent', {
             userId,
             eventId,
         })
@@ -111,7 +113,7 @@ function Events() {
         try {
             const eventImageRequests = events.map(event => {
                 if (event.Image != null) {
-                    return Axios.get(`https://hhbc-snw-api.netlify.app/api/getEventPhoto/${event.Image}`)
+                    return Axios.get(`/api/getEventPhoto/${event.Image}`)
                         .then(response => ({
                             id: event.id,
                             image: `data:image/jpeg;base64,${response}`,

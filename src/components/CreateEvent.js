@@ -1,3 +1,4 @@
+import { fetchAllPhotos } from '../photosApi';
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
 import Axios from 'axios';
@@ -19,8 +20,8 @@ function CreateEvent() {
     useEffect(() => {
         const fetchImages = async () => {
             try {
-                const response = await Axios.get('https://hhbc-snw-api.netlify.app/api/getPhotos');
-                setImagePreviews(response.data); // Assuming images data is in the response
+                const photos = await fetchAllPhotos();
+                setImagePreviews(photos); // Assuming images data is in the response
             } catch (error) {
                 console.error('Error fetching event images:', error);
             }
@@ -50,7 +51,7 @@ function CreateEvent() {
         console.log("Form Data Submitted:", formData);
 
         try {
-            const response = await Axios.post('https://hhbc-snw-api.netlify.app/api/addEvent', formData, {
+            const response = await Axios.post('/api/addEvent', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

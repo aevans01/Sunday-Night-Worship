@@ -3,13 +3,21 @@ import { Navigate } from 'react-router-dom';
 import { useUser } from './UserContext';
 
 const ProtectedRoute = ({ children, roles }) => {
-    const { user } = useUser();
+    const { user, loading, sessionError, refreshSession } = useUser();
+
+    if (loading) return <p role="status">Checking your session…</p>;
+    if (sessionError) return (
+        <div role="alert">
+            <p>{sessionError}</p>
+            <button onClick={refreshSession}>Retry session check</button>
+        </div>
+    );
 
     if (!user) {
-        return <Navigate to="/Login-Admin" />;
+        return <Navigate to="/Login" replace />;
     }
 
-    if (!roles.includes(user.role)) {
+    if (!roles.map(String).includes(String(user.role))) {
         return <Navigate to="/AdminError" />;
     }
 

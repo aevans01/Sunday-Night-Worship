@@ -19,7 +19,7 @@ const CustomWheel = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await Axios.get(`https://hhbc-snw-api.netlify.app/api/getSongs`);
+                const response = await Axios.get(`/api/getSongs`);
                 if (response.data) {
                     setList(response.data);  // Store songs in List
                     const updatedWheelData = response.data.map(item => ({

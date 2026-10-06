@@ -8,7 +8,7 @@ const [attendees, setAttendees] = useState([]);
 useEffect(() => {
     const fetchAttendees = async () => {
         try {
-            const response = await Axios.post('https://hhbc-snw-api.netlify.app/api/getAttendees', {
+            const response = await Axios.post('/api/getAttendees', {
                 eventId: eventId,
             });
             setAttendees(response.data);

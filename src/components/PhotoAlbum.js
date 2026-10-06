@@ -1,3 +1,4 @@
+import { fetchAllPhotos } from '../photosApi';
 import React, { useState, useEffect } from 'react';
 import {
     Container, Row, Col, Card, Form, Button, Modal,
@@ -22,11 +23,10 @@ const PhotoAlbum = () => {
     useEffect(() => {
         const fetchAlbumsAndPhotos = async () => {
             try {
-                const albumResponse = await Axios.get('https://hhbc-snw-api.netlify.app/api/getPhotoAlbum');
+                const albumResponse = await Axios.get('/api/getPhotoAlbum');
                 const albumsData = albumResponse.data;
 
-                const photoResponse = await Axios.get('https://hhbc-snw-api.netlify.app/api/getPhotos');
-                const photosData = photoResponse.data;
+                const photosData = await fetchAllPhotos();
 
                 const uncategorized = photosData.filter(photo => !photo.album);
 
@@ -47,7 +47,7 @@ const PhotoAlbum = () => {
 
     const handleCreateAlbum = () => {
         if (albumName && !albums.some(album => album.AlbumName === albumName)) {
-            Axios.post('https://hhbc-snw-api.netlify.app/api/addPhotoAlbum', { AlbumName: albumName })
+            Axios.post('/api/addPhotoAlbum', { AlbumName: albumName })
                 .then(() => {
                     setAlbums([...albums, { id: albums.length + 1, AlbumName: albumName, photos: [] }]);
                     setAlbumName('');
@@ -61,7 +61,7 @@ const PhotoAlbum = () => {
     };
 
     const handleMovePhotoToAlbum = (photoId, newAlbumId) => {
-        Axios.put(`https://hhbc-snw-api.netlify.app/api/updatePhotoAlbum`, { photoId, albumId: newAlbumId })
+        Axios.put(`/api/updatePhotoAlbum`, { photoId, albumId: newAlbumId })
             .then(() => {
                 setAlbums(prevAlbums =>
                     prevAlbums.map(album => {

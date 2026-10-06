@@ -19,7 +19,7 @@ function EditProfile() {
     // Fetch user details when the page loads
     useEffect(() => {
         if (user && user.id) {
-            Axios.post('https://hhbc-snw-api.netlify.app/api/userById', { USERID: user.id })
+            Axios.get(`/api/userById/${user.id}`)
                 .then((res) => {
                     if (res.data && res.data.length > 0) {
                         const { PROFILEPIC, username, emailAddr, firstName, lastName, phoneNum } = res.data[0];
@@ -68,7 +68,7 @@ function EditProfile() {
         }
 
         // Send the update request to the backend
-        Axios.post('https://hhbc-snw-api.netlify.app/api/updateProfile', formData)
+        Axios.post('/api/updateProfile', formData)
             .then((res) => {
                 alert('Profile updated successfully!');
             })

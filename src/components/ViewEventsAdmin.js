@@ -10,7 +10,7 @@ function ViewEventsAdmin() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await Axios.get('https://hhbc-snw-api.netlify.app/api/getEvents');
+                const response = await Axios.get('/api/getEvents');
                 const fetchedEvents = response.data;
 
                 const now = new Date();
@@ -26,7 +26,7 @@ function ViewEventsAdmin() {
 
     function getAttendees(eventId) {
         console.log(`Fetching attendees for event ID: ${eventId}`);
-        Axios.post('https://hhbc-snw-api.netlify.app/api/getAttendees', {
+        Axios.post('/api/getAttendees', {
             eventId: eventId,
         }).then(response => {
             console.log('Attendees:', response.data);
@@ -45,7 +45,7 @@ function ViewEventsAdmin() {
         try {
             const eventImageRequests = events.map(event => {
                 if (event.Image != null) {
-                    return Axios.get(`https://hhbc-snw-api.netlify.app/api/getEventPhoto/${event.Image}`)
+                    return Axios.get(`/api/getEventPhoto/${event.Image}`)
                         .then(response => ({
                             id: event.id,
                             image: `data:image/jpeg;base64,${response}`,

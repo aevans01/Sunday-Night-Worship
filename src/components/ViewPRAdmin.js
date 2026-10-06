@@ -10,7 +10,7 @@ function ViewPrayerRequests() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await Axios.get(`https://hhbc-snw-api.netlify.app/api/getPR`);
+                const response = await Axios.get(`/api/getPR`);
                 if (response.data) {
                     setList(response.data); // Store the prayer requests
                 }
@@ -37,7 +37,7 @@ function ViewPrayerRequests() {
 
         try {
             const response = await Axios.delete(
-                `https://hhbc-snw-api.netlify.app/api/deletePR/${id}`
+                `/api/deletePR/${id}`
             );
 
             if (response.status === 200) {
