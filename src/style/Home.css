@@ -1,4 +1,4 @@
-.hh-home { --hh-ink:#182c35; --hh-muted:#56666d; --hh-accent:#285e60; background:#f7f7f2; color:var(--hh-ink); padding:72px 0 0; font-family:Arial,sans-serif; }
+.hh-home { --hh-ink:#343d32; --hh-muted:#666b5a; --hh-accent:#426653; background:#fff9ef; color:var(--hh-ink); padding:72px 0 0; font-family:Arial,sans-serif; }
 .hh-home * { box-sizing:border-box; }
 .hh-home .hh-shell { width:min(1160px,calc(100% - 64px)); margin-inline:auto; }
 .hh-home h1,.hh-home h2,.hh-home h3,.hh-home p,.hh-home figure { margin:0; }
@@ -12,18 +12,18 @@
 .hh-actions { display:flex; gap:24px; flex-wrap:wrap; align-items:center; margin-top:32px; }
 .hh-home .hh-button { display:inline-flex; align-items:center; justify-content:center; gap:18px; min-height:48px; border-radius:6px; padding:12px 20px; font-size:14px; font-weight:700; text-decoration:none; cursor:pointer; transition:background .15s; }
 .hh-home .hh-primary { color:white; background:var(--hh-accent); border:1px solid var(--hh-accent); }
-.hh-home .hh-primary:hover { background:#19484a; }
-.hh-home .hh-secondary { background:transparent; border:1px solid #bcc9c6; color:var(--hh-ink); }
-.hh-home .hh-secondary:hover { background:#e8eeea; }
+.hh-home .hh-primary:hover { background:#31513f; }
+.hh-home .hh-secondary { background:transparent; border:1px solid #cdd8bd; color:var(--hh-ink); }
+.hh-home .hh-secondary:hover { background:#e6ecd9; }
 .hh-home .hh-text-link { font-size:14px; font-weight:700; text-underline-offset:5px; line-height:1.6; }
 .hh-home a:focus-visible,.hh-home button:focus-visible { outline:3px solid #c48128; outline-offset:5px; }
-.hh-hero-photo { position:relative; overflow:hidden; border-radius:14px; background:#e8ede8; }
+.hh-hero-photo { position:relative; overflow:hidden; border-radius:14px; background:#f1e4ce; }
 .hh-hero-photo img { display:block; width:100%; height:auto; aspect-ratio:5/4; object-fit:cover; }
 .hh-home .hh-hero-photo figcaption { padding:14px 18px; font-size:12px; letter-spacing:.2px; }
-.hh-times { display:grid; grid-template-columns:1.15fr 1fr 1fr; gap:32px; padding:32px; background:white; border:1px solid #e0e5de; border-radius:12px; scroll-margin-top:100px; }
+.hh-times { display:grid; grid-template-columns:1.15fr 1fr 1fr; gap:32px; padding:32px; background:white; border:1px solid #e9dfce; border-radius:12px; scroll-margin-top:100px; }
 .hh-times-heading h2 { font-size:28px; }
 .hh-home .hh-times-heading p:last-child { font-size:14px; color:var(--hh-muted); margin-top:12px; line-height:1.7; }
-.hh-schedule { border-left:1px solid #e0e5de; padding-left:28px; }
+.hh-schedule { border-left:1px solid #e9dfce; padding-left:28px; }
 .hh-home .hh-schedule h3 { font-size:17px; font-weight:700; margin-bottom:16px; }
 .hh-schedule dl { margin:0 0 20px; }
 .hh-schedule dl div { display:flex; gap:10px; justify-content:space-between; margin-bottom:14px; font-size:13px; }
@@ -31,7 +31,7 @@
 .hh-schedule dt small { display:block; margin-top:4px; color:var(--hh-muted); font-size:11px; }
 .hh-schedule dd { margin:0; white-space:nowrap; font-weight:700; }
 #daily-verse { scroll-margin-top:100px; }
-.hh-verse { margin:64px 0; padding:40px 48px 28px; background:#edf1eb; border:1px solid #dce4d8; border-radius:12px; }
+.hh-verse { margin:64px 0; padding:40px 48px 28px; background:#eef2e5; border:1px solid #dbe1c9; border-radius:12px; }
 .hh-verse-header { display:flex; justify-content:space-between; align-items:center; gap:20px; }
 .hh-home .hh-verse-date { font-size:13px; color:var(--hh-muted); }
 .hh-home .hh-verse blockquote { margin:40px auto 30px; max-width:850px; text-align:center; }
@@ -47,7 +47,14 @@
 .hh-gallery { background:#15272e; border-radius:12px; overflow:hidden; }
 .hh-home .hh-gallery img { display:block; width:100%; height:460px; object-fit:contain; }
 .hh-home .hh-gallery .carousel-control-prev,.hh-home .hh-gallery .carousel-control-next { width:12%; }
-.hh-closing { border-top:1px solid #dce4d8; margin-top:48px!important; padding:28px 0; display:flex; justify-content:space-between; gap:16px; font-size:14px; color:var(--hh-muted); }
+.hh-closing { border-top:1px solid #dbe1c9; margin-top:48px!important; padding:28px 0; display:flex; justify-content:space-between; gap:16px; font-size:14px; color:var(--hh-muted); }
 @media(max-width:900px) { .hh-hero { gap:32px; } .hh-times { grid-template-columns:1fr 1fr; } .hh-times-heading { grid-column:1/-1; } .hh-schedule { padding-left:0; border-left:0; } }
-@media(max-width:640px) { .hh-home { padding-top:36px; } .hh-home .hh-shell { width:calc(100% - 32px); } .hh-hero { grid-template-columns:1fr; padding-bottom:32px; } .hh-home h1 { letter-spacing:-1.2px; } .hh-times { grid-template-columns:1fr; padding:24px; gap:24px; } .hh-schedule { border-top:1px solid #e0e5de; padding-top:20px; } .hh-verse { margin:36px 0; padding:28px 24px 18px; } .hh-verse-header,.hh-section-heading { align-items:flex-start; flex-direction:column; gap:12px; } .hh-home .hh-verse blockquote { margin:28px auto; } .hh-home .hh-gallery img { height:300px; } .hh-closing { flex-direction:column; } }
+@media(max-width:640px) { .hh-home { padding-top:36px; } .hh-home .hh-shell { width:calc(100% - 32px); } .hh-hero { grid-template-columns:1fr; padding-bottom:32px; } .hh-home h1 { letter-spacing:-1.2px; } .hh-times { grid-template-columns:1fr; padding:24px; gap:24px; } .hh-schedule { border-top:1px solid #e9dfce; padding-top:20px; } .hh-verse { margin:36px 0; padding:28px 24px 18px; } .hh-verse-header,.hh-section-heading { align-items:flex-start; flex-direction:column; gap:12px; } .hh-home .hh-verse blockquote { margin:28px auto; } .hh-home .hh-gallery img { height:300px; } .hh-closing { flex-direction:column; } }
 @media(prefers-reduced-motion:reduce) { .hh-home * { transition:none!important; scroll-behavior:auto!important; } }
+
+/* Warm touches that welcome visitors without competing with the photos. */
+.hh-home .hh-hero-photo { background:#faead7; }
+.hh-home .hh-hero-photo figcaption { color:#70523e; }
+.hh-home .hh-times { border-top:4px solid #edc59a; }
+.hh-home .hh-verse { background:#eef3df; border-color:#dce5c6; }
+.hh-home .hh-primary { box-shadow:0 3px 8px #42665312; }
