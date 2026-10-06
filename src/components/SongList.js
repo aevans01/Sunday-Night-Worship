@@ -1,45 +1,5 @@
-import Axios from 'axios';
-import { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
-import Table from 'react-bootstrap/Table';
-
-
-function SongList(){
-const [songs,setSongs] = useState();
-
-useEffect(() => {
-    Axios.get(`/api/getSongs`)
-        .then((response) => {
-            console.log("test")
-            if (response.data) {
-                setSongs(response.data)
-                console.log(response.data);
-            }
-        })
-        .catch(err => {
-            console.log(err);
-        });
-}, [songs]);
-
-    function deleteSong(songID){
-        Axios.delete()
-    }
-    return(
-        <>
-        <Table id='songListTable' striped bordered hover>
-        <tr key={"header"}>
-          <th></th>
-          <th>Title</th>
-      </tr>
-      {songs.map((item) => (
-        <tr key={item.id}>
-            <td><Button>Delete</Button></td>
-            <td>{item.VideoTitle}</td>
-        </tr>
-      ))}
-        </Table>
-        </>
-    )
+import { useList, ListStatus, Empty } from './PortalUI';
+export default function SongList() {
+  const list = useList('/getSongs');
+  return <ListStatus list={list}>{list.items.length ? <ol className="portal-wheel-song-list">{list.items.map(s => <li key={s.id}><span>{s.VideoTitleShortened || s.VideoTitle}</span><a href={`https://www.youtube.com/watch?v=${encodeURIComponent(s.VideoSource)}`} target="_blank" rel="noopener noreferrer" aria-label={`Watch ${s.VideoTitle}`}>↗</a></li>)}</ol> : !list.loading && !list.error && <Empty title="Your list is empty.">Invite members to share their favorite songs.</Empty>}</ListStatus>;
 }
-
-export default SongList;

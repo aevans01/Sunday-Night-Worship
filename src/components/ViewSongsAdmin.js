@@ -1,74 +1,9 @@
-import { useEffect, useState } from "react";
-import Axios from "axios";
-import { Container, Row, Col, Card, Table, Alert } from "react-bootstrap";
-import Button from 'react-bootstrap/Button';
-
-function ViewPrayerRequests() {
-    const [List, setList] = useState([]); // Store prayer requests
-    const [error, setError] = useState(null); // Error state
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await Axios.get(`/api/getSongs`);
-                if (response.data) {
-                    setList(response.data); // Store the prayer requests
-                }
-            } catch (error) {
-                setError("Error fetching songs"); // Set error message
-            }
-        };
-        fetchData();
-    }, []);
-
-    // If there's an error, display the error message
-    if (error) {
-        return (
-            <Container className="mt-5">
-                <Alert variant="danger">
-                    <strong>{error}</strong>
-                </Alert>
-            </Container>
-        );
-    }
-
-    return (
-        <Container className="mt-5">
-            <h2 className="text-center mb-4">Songs</h2>
-
-            {/* If there are no prayer requests */}
-            {List.length === 0 ? (
-                <Alert variant="info" className="text-center">
-                    No songs available at the moment.
-                </Alert>
-            ) : (
-                <Row>
-                    <Col md={12}>
-                        {/* Table layout for displaying prayer requests */}
-                        <Table striped bordered hover responsive>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Song Name</th>
-                                    {/* <th>Submitted By</th> */}
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {List.map((request, index) => (
-                                    <tr key={index}>
-                                        <td><Button>Delete</Button></td>
-                                        <td>{request.VideoTitle}</td>
-                                        {/* <td>{request.User}</td> */}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </Col>
-                </Row>
-            )}
-        </Container>
-    );
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Page, Panel, Empty, useList, ListStatus } from './PortalUI';
+export default function ViewSongsAdmin() {
+  const list = useList('/getSongs'),
+    [q, setQ] = useState('');
+  const visible = list.items.filter(s => String(s.VideoTitle || s.VideoTitleShortened || '').toLowerCase().includes(q.toLowerCase()));
+  return <Page eyebrow="CHURCH ADMINISTRATION" title="The songs we share." description="Browse your community’s current worship song submissions." action={<Link className="portal-btn" to="/SongSelector">Open song wheel ↗</Link>}><div className="portal-toolbar"><span>{list.items.length} songs loaded</span><input aria-label="Search songs" placeholder="Search song titles…" value={q} onChange={e => setQ(e.target.value)} /></div><ListStatus list={list}><Panel className="portal-table-panel">{visible.length ? <div className="portal-table-scroll"><table><thead><tr><th>Song</th><th>Watch</th></tr></thead><tbody>{visible.map(s => <tr key={s.id}><td><div className="portal-song-row">{s.VideoImage && <img src={s.VideoImage} alt="" loading="lazy" />}<strong>{s.VideoTitle || s.VideoTitleShortened}</strong></div></td><td><a className="portal-link" href={`https://www.youtube.com/watch?v=${encodeURIComponent(s.VideoSource)}`} target="_blank" rel="noopener noreferrer">Watch ↗</a></td></tr>)}</tbody></table></div> : !list.loading && <Empty title="No songs in this view">Search for a different title or invite members to submit a song.</Empty>}</Panel></ListStatus></Page>;
 }
-
-export default ViewPrayerRequests;

@@ -1,87 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../UserContext';
-import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
-import Axios from "axios";
-
-// ✅ Always send credentials with API calls
-Axios.defaults.withCredentials = true;
-
-const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const { login } = useUser();
-    const navigate = useNavigate();
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Submitting login for', username);
-        Axios.post('/api/login',
-            { email: username, password },
-            { withCredentials: true } // important for cookies
-        )
-            .then((response) => {
-                if (response.data.success) {
-                    console.log('got data back');
-                    // Store user in context (session cookie is handled automatically)
-                    login(response.data.user, response.data.user.role);
-                    navigate('/'); // redirect after login
-                } else {
-                    setError(response.data.message || 'Login failed.');
-                    console.log('Login failed', response.data);
-                }
-            })
-            .catch((err) => {
-                setError(err.response?.data?.message || 'An error occurred during login.');
-                console.error('Login error', err);
-            });
-    };
-
-    return (
-        <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
-            <Row className="w-100" style={{ maxWidth: '400px' }}>
-                <Col>
-                    <Card>
-                        <Card.Body>
-                            <h2 className="text-center mb-4">Login</h2>
-                            {error && <Alert variant="danger">{error}</Alert>}
-                            <Form onSubmit={handleSubmit}>
-                                <Form.Group className="mb-3" controlId="formUsername">
-                                    <Form.Label>Username</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter your username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        required
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="formPassword">
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        placeholder="Enter your password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
-                                </Form.Group>
-                                <Button variant="primary" type="submit" className="w-100">
-                                    Login
-                                </Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                    <div className="text-center mt-3">
-                        <small>
-                            Don't have an account? <a href="/register">Sign up</a>
-                        </small>
-                    </div>
-                </Col>
-            </Row>
-        </Container>
-    );
-};
-
-export default Login;
+import { api, errorText, Field, Notice } from './PortalUI';
+import Camp from '../images/YouthCamp2025.jpg';
+export default function Login() {
+  const [form, setForm] = useState({
+      email: '',
+      password: ''
+    }),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState('');
+  const {
+    login
+  } = useUser();
+  const navigate = useNavigate();
+  async function submit(e) {
+    e.preventDefault();
+    setBusy(true);
+    setError('');
+    try {
+      const {
+        data
+      } = await api.post('/login', form);
+      if (!data.success) throw new Error('Sign in failed');
+      login(data.user);
+      navigate('/');
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+  return <section className="portal-auth"><aside><img src={Camp} alt="Haven Heights youth community" /><div><p className="portal-eyebrow">A PLACE TO BELONG</p><h2>Faith grows<br />in community.</h2><p>Stay connected with the people and moments that make Haven Heights home.</p></div></aside><div className="portal-auth-form"><Link className="portal-breadcrumb" to="/">← Back to home</Link><p className="portal-eyebrow">YOUR ACCOUNT</p><h1>Welcome back.</h1><p>Sign in to your Haven Heights account.</p><Notice error>{error}</Notice><form onSubmit={submit}><Field id="login-email" label="Username" autoComplete="username" required value={form.email} onChange={e => setForm({
+          ...form,
+          email: e.target.value
+        })} /><Field id="login-password" label="Password" type="password" autoComplete="current-password" required value={form.password} onChange={e => setForm({
+          ...form,
+          password: e.target.value
+        })} /><button className="portal-btn wide" disabled={busy}>{busy ? 'Signing in…' : 'Sign in →'}</button></form><p className="portal-auth-bottom">New here? <Link to="/Register">Create an account</Link></p></div></section>;
+}

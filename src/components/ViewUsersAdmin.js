@@ -1,248 +1,64 @@
-import { useEffect, useState } from "react";
-import Axios from "axios";
-import { Container, Row, Col, Card, Table, Alert } from "react-bootstrap";
-import Button from 'react-bootstrap/Button';
-
-function ViewUsersAdmin() {
-    const [List, setList] = useState([]);
-    const [error, setError] = useState(null); // Error state
-    const [editingIndex, setEditingIndex] = useState(null); // Index of user being edited
-    const [editedUser, setEditedUser] = useState(null); // User data for editing
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await Axios.get(`/api/getUsers`);
-                if (response.data) {
-                    setList(response.data); // Store the users
-                }
-            } catch (error) {
-                setError("Error fetching prayer requests"); // Set error message
-            }
-        };
-        fetchData();
-    }, []);
-
-    // Handle the "Edit" button click
-    const handleEdit = (index) => {
-        setEditingIndex(index);
-        setEditedUser({ ...List[index], password: '' }); // Initialize the edited user data
-    };
-
-    // Handle input changes for editable fields
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setEditedUser((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
-
-    // Handle save changes
-    const handleSave = async () => {
-        try {
-            // Send the updated user data to the backend
-            const response = await Axios.put(
-                `/api/updateUser/${editedUser.id}`,
-                editedUser
-            );
-
-            if (response.status === 200) {
-                // Update the list with the edited user data
-                const updatedList = List.map((user, index) =>
-                    index === editingIndex ? { ...editedUser, password: undefined } : user
-                );
-                setList(updatedList);
-                setEditingIndex(null);
-                setEditedUser(null);
-                alert("User updated successfully!");
-            } else {
-                alert("Failed to update user. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error updating user:", error);
-            alert("An error occurred while updating the user.");
-        }
-    };
-
-
-
-    // Handle cancel editing
-    const handleCancel = () => {
-        setEditingIndex(null); // Exit editing mode
-        setEditedUser(null); // Clear edited user data
-    };
-
-    // If there's an error, display the error message
-    if (error) {
-        return (
-            <Container className="mt-5">
-                <Alert variant="danger">
-                    <strong>{error}</strong>
-                </Alert>
-            </Container>
-        );
+import { useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { Page, Panel, Field, Notice, Empty, Avatar, Confirm, useList, ListStatus, api, errorText } from './PortalUI';
+export default function ViewUsersAdmin() {
+  const list = useList('/getUsers');
+  const [q, setQ] = useState(''),
+    [editing, setEditing] = useState(null),
+    [deleting, setDeleting] = useState(null),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState(''),
+    [message, setMessage] = useState('');
+  const visible = list.items.filter(u => `${u.firstName} ${u.lastName} ${u.username} ${u.emailAddr}`.toLowerCase().includes(q.toLowerCase()));
+  async function save(e) {
+    e.preventDefault();
+    setBusy(true);
+    setError('');
+    try {
+      await api.put(`/updateUser/${editing.id}`, editing);
+      list.setItems(old => old.map(u => u.id === editing.id ? {
+        ...u,
+        ...editing,
+        password: undefined
+      } : u));
+      setEditing(null);
+      setMessage('Member details updated.');
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
     }
-
-    const handleDelete = async (id) => {
-        if (!window.confirm("Are you sure you want to delete this user?")) return;
-
-        try {
-            const response = await Axios.delete(
-                `/api/deleteUser/${id}`
-            );
-
-            if (response.status === 200) {
-                setList(List.filter((user) => user.id !== id));
-                alert("User deleted successfully!");
-            } else {
-                alert("Failed to delete user. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error deleting user:", error);
-            alert("An error occurred while deleting the user.");
-        }
-    };
-
-    return (
-        <Container className="mt-5">
-            <h2 className="text-center mb-4">Users</h2>
-
-            {/* If there are no users */}
-            {List.length === 0 ? (
-                <Alert variant="info" className="text-center">
-                    Unable to retrieve users at this time.
-                </Alert>
-            ) : (
-                <Row>
-                    <Col md={12}>
-                        {/* Table layout for displaying users */}
-                        <Table striped bordered hover responsive>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Username</th>
-                                    <th>Password</th>
-                                    <th>Email Address</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Admin Access</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {List.map((request, index) => (
-                                    <tr key={index}>
-                                        <td>
-                                            {editingIndex === index ? (
-                                                <>
-                                                    <Row><Button onClick={handleSave}>Save</Button></Row>
-                                                    <Row><Button onClick={handleCancel} className="ml-2" variant="warning">Cancel</Button></Row>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Col>
-                                                        <Row><Button onClick={() => handleEdit(index)}>Edit</Button></Row>
-                                                        <Row><Button onClick={() => handleDelete(request.id)} className="ml-2" variant="danger">Delete</Button></Row>
-                                                    </Col>
-                                                </>
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingIndex === index ? (
-                                                <input
-                                                    type="text"
-                                                    name="username"
-                                                    value={editedUser.username}
-                                                    onChange={handleChange}
-                                                />
-                                            ) : (
-                                                request.username
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingIndex === index ? (
-                                                <input
-                                                    type="password"
-                                                    name="password"
-                                                    autoComplete="new-password"
-                                                    placeholder="Leave blank to keep password"
-                                                    value={editedUser.password || ''}
-                                                    onChange={handleChange}
-                                                />
-                                            ) : (
-                                                '••••••••'
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingIndex === index ? (
-                                                <input
-                                                    type="email"
-                                                    name="emailAddr"
-                                                    value={editedUser.emailAddr}
-                                                    onChange={handleChange}
-                                                />
-                                            ) : (
-                                                request.emailAddr
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingIndex === index ? (
-                                                <input
-                                                    type="text"
-                                                    name="firstName"
-                                                    value={editedUser.firstName}
-                                                    onChange={handleChange}
-                                                />
-                                            ) : (
-                                                request.firstName
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingIndex === index ? (
-                                                <input
-                                                    type="text"
-                                                    name="lastName"
-                                                    value={editedUser.lastName}
-                                                    onChange={handleChange}
-                                                />
-                                            ) : (
-                                                request.lastName
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingIndex === index ? (
-                                                <input
-                                                    type="text"
-                                                    name="phoneNum"
-                                                    value={editedUser.phoneNum}
-                                                    onChange={handleChange}
-                                                />
-                                            ) : (
-                                                request.phoneNum
-                                            )}
-                                        </td>
-                                        <td>
-                                            {editingIndex === index ? (
-                                                <input
-                                                    type="text"
-                                                    name="Admin"
-                                                    value={editedUser.Admin}
-                                                    onChange={handleChange}
-                                                />
-                                            ) : (
-                                                request.Admin
-                                            )}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </Col>
-                </Row>
-            )}
-        </Container>
-    );
+  }
+  async function remove() {
+    setBusy(true);
+    try {
+      await api.delete(`/deleteUser/${deleting.id}`);
+      list.setItems(old => old.filter(u => u.id !== deleting.id));
+      setDeleting(null);
+      setMessage('Member removed.');
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+  return <Page eyebrow="CHURCH ADMINISTRATION" title="Your church family." description="Manage member details and account access."><Notice>{message}</Notice><div className="portal-toolbar"><span>{list.items.length} members loaded</span><input aria-label="Search members" placeholder="Search names, usernames, or email…" value={q} onChange={e => setQ(e.target.value)} /></div><ListStatus list={list}><Panel className="portal-table-panel">{visible.length ? <div className="portal-table-scroll"><table><thead><tr><th>Member</th><th>Contact</th><th>Access</th><th>Actions</th></tr></thead><tbody>{visible.map(u => <tr key={u.id}><td><div className="portal-member"><Avatar name={u.firstName || u.username} /><div><strong>{u.firstName} {u.lastName}</strong><small>@{u.username}</small></div></div></td><td>{u.emailAddr}<small className="portal-cell-note">{u.phoneNum || 'No phone number'}</small></td><td><span className="portal-tag">{String(u.Admin) === '1' ? 'Administrator' : 'Member'}</span></td><td><div className="portal-row-actions"><button className="portal-link" onClick={() => {
+                      setError('');
+                      setEditing({
+                        ...u,
+                        password: ''
+                      });
+                    }}>Edit</button><button className="portal-link danger" onClick={() => {
+                      setError('');
+                      setDeleting(u);
+                    }}>Delete</button></div></td></tr>)}</tbody></table></div> : !list.loading && <Empty title="No matching members">Try a different search.</Empty>}</Panel></ListStatus><Modal show={!!editing} onHide={() => !busy && setEditing(null)} centered size="lg"><Modal.Header><Modal.Title>Edit member details</Modal.Title></Modal.Header><Modal.Body>{editing && <form id="edit-member" onSubmit={save}><Notice error>{error}</Notice><div className="portal-form-grid">{[['firstName', 'First name'], ['lastName', 'Last name'], ['username', 'Username'], ['emailAddr', 'Email address'], ['phoneNum', 'Phone number']].map(([key, label]) => <Field key={key} id={`edit-${key}`} label={label} required={key !== 'phoneNum'} type={key === 'emailAddr' ? 'email' : 'text'} value={editing[key] || ''} onChange={e => setEditing({
+              ...editing,
+              [key]: e.target.value
+            })} />)}</div><Field as="select" id="edit-role" label="Account access" value={String(editing.Admin)} onChange={e => setEditing({
+            ...editing,
+            Admin: e.target.value
+          })}><option value="0">Member</option><option value="1">Administrator</option></Field><Field id="edit-password" label="New password (optional)" type="password" minLength={12} maxLength={72} autoComplete="new-password" value={editing.password} onChange={e => setEditing({
+            ...editing,
+            password: e.target.value
+          })} help="Leave blank to keep the current password. A password change signs this member out." /></form>}</Modal.Body><Modal.Footer><button className="portal-btn secondary" disabled={busy} onClick={() => setEditing(null)}>Cancel</button><button className="portal-btn" form="edit-member" type="submit" disabled={busy}>{busy ? 'Saving…' : 'Save changes'}</button></Modal.Footer></Modal><Confirm show={!!deleting} title="Delete this member?" onCancel={() => setDeleting(null)} onConfirm={remove} busy={busy}>Permanently remove {deleting?.username} from the member list.<Notice error>{error}</Notice></Confirm></Page>;
 }
-
-export default ViewUsersAdmin;

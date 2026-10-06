@@ -10,9 +10,9 @@ const CustomWheel = () => {
     const [prizeNumber, setPrizeNumber] = useState(0);
     const [loading, setLoading] = useState(true);
     const [show, setShow] = useState(false);
-    const [winner, setWinner] = useState('');
+    const [, setWinner] = useState('');
     const [winnerURL, setWinnerURL] = useState('');
-    const [winnerImg, setWinnerImg] = useState('');
+    const [, setWinnerImg] = useState('');
     const [spinning, setSpinning] = useState(false);  // Added state for controlling spinning process
 
     // Use an effect that runs only once on component mount to fetch songs
@@ -101,25 +101,15 @@ const CustomWheel = () => {
                     <Spinner animation="border" variant="primary" />
                     <p>Loading songs...</p>
                 </div>
-            ) : (
+            ) : data.length === 0 ? (<div className="portal-empty"><h2>No songs left to spin.</h2><p>Add songs to the list to get started.</p></div>) : (
                 <div className="wheel-container">
                     <Wheel
                         mustStartSpinning={mustSpin}
                         prizeNumber={prizeNumber}
                         data={data}
                         onStopSpinning={handleStopSpinning}
-                        backgroundColors={[
-                            '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6',
-                            '#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
-                            '#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A',
-                            '#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
-                            '#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC',
-                            '#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
-                            '#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680',
-                            '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
-                            '#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3',
-                            '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'
-                        ]}
+                        backgroundColors={['#dce8d7','#edf1eb','#c9d7c2','#e8d8b5','#d5e1db']}
+                        textColors={['#182c35']}
                     />
                     <Button
                         variant="primary"

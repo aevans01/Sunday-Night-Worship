@@ -1,86 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Container, Row, Col, Card, Form, Image } from 'react-bootstrap';
-import { useUser } from '../UserContext'; // Assuming you are using UserContext to manage user state
-import Axios from 'axios';
-import profilePlaceholder from '../images/profilePic.png'; // Placeholder image in case the user doesn't have one
-
-function ViewProfile() {
-    const { user } = useUser(); // Fetch user from context
-    const [profilePic, setProfilePic] = useState(profilePlaceholder);
-    const [userDetails, setUserDetails] = useState({
-        username: '',
-        emailAddr: '',
-        firstName: '',
-        lastName: '',
-        phoneNum: ''
-    });
-
-    // Fetch user details when the page loads
-    useEffect(() => {
-        const userID = user?.id;
-        if (userID) {
-            console.log('Fetching user profile for ID:', userID);
-            Axios.get(`/api/userById/${userID}`,)
-                .then((res) => {
-                    if (res.data) {
-                        console.log('User profile data:', res.data);
-                        const { PROFILEPIC, username, emailAddr, firstName, lastName, phoneNum } = res.data;
-                        setProfilePic(PROFILEPIC || profilePlaceholder);
-                        setUserDetails({
-                            username,
-                            emailAddr,
-                            firstName,
-                            lastName,
-                            phoneNum
-                        });
-                    }
-                })
-                .catch((err) => {
-                    console.error('Error fetching user profile:', err);
-                });
-        }
-    }, [user]);
-
-    return (
-        <Container className="my-5">
-            <Row className="justify-content-center">
-                <Col md={8}>
-                    <Card className="shadow-lg p-4">
-                        <Card.Body>
-                            <div className="d-flex justify-content-center mb-4">
-                                <Image
-                                    src={profilePic}
-                                    roundedCircle
-                                    width="150"
-                                    height="150"
-                                    alt="Profile"
-                                    className="border border-2 border-primary"
-                                />
-                            </div>
-                            <h2 className="text-center mb-4">{userDetails.firstName} {userDetails.lastName}</h2>
-                            <Form>
-                                <Form.Group controlId="formUsername" className="mb-3">
-                                    <Form.Label>Username</Form.Label>
-                                    <Form.Control type="text" value={userDetails.username} readOnly />
-                                </Form.Group>
-                                <Form.Group controlId="formEmail" className="mb-3">
-                                    <Form.Label>Email Address</Form.Label>
-                                    <Form.Control type="email" value={userDetails.emailAddr} readOnly />
-                                </Form.Group>
-                                <Form.Group controlId="formPhone" className="mb-3">
-                                    <Form.Label>Phone Number</Form.Label>
-                                    <Form.Control type="text" value={userDetails.phoneNum} readOnly />
-                                </Form.Group>
-                                <Button variant="primary" href="/EditProfile" className="w-100">
-                                    Edit Profile
-                                </Button>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
-    );
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useUser } from '../UserContext';
+import { Page, Panel, Notice, Avatar, api, errorText } from './PortalUI';
+export default function ViewProfile() {
+  const {
+    user,
+    loading
+  } = useUser();
+  const [details, setDetails] = useState(null),
+    [error, setError] = useState('');
+  useEffect(() => {
+    let live = true;
+    if (user?.id) api.get(`/userById/${user.id}`).then(({
+      data
+    }) => live && setDetails(data)).catch(e => live && setError(errorText(e)));
+    return () => {
+      live = false;
+    };
+  }, [user?.id]);
+  const name = details ? `${details.firstName} ${details.lastName}` : user?.username || 'Member';
+  return <Page eyebrow="YOUR ACCOUNT" title="Your place in our community." description="Your account details and ways to stay connected.">{loading ? <p role="status">Checking your session…</p> : !user ? <Panel title="Sign in to see your profile"><Link className="portal-btn" to="/Login">Sign in</Link></Panel> : <><Notice error>{error}</Notice><div className="portal-profile-layout"><Panel className="portal-profile-summary"><Avatar name={name} /><h2>{name}</h2><p>@{details?.username || user.username}</p><span className="portal-tag">{String(user.role) === '1' ? 'Administrator' : 'Church member'}</span></Panel><Panel title="Account details" description="Need to update something? Ask a church administrator to update your member record.">{details ? <dl className="portal-profile-details">{[['Username', details.username], ['Email address', details.emailAddr], ['Phone number', details.phoneNum || 'Not provided']].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl> : !error && <p role="status">Loading account details…</p>}<div className="portal-profile-links"><Link to="/Events">Browse events ↗</Link><Link to="/CreatePrayerRequest">Share a prayer request ↗</Link><Link to="/PhotoAlbum">Explore photos ↗</Link></div></Panel></div></>}</Page>;
 }
-
-export default ViewProfile;

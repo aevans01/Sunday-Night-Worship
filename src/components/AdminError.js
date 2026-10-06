@@ -1,36 +1,7 @@
-import React from 'react';
-import { Button, Container, Row, Col, Card } from 'react-bootstrap'; // Using React Bootstrap for a cleaner UI
-
-function AdminError() {
-    return (
-        <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-            <Container>
-                <Row className="justify-content-center">
-                    <Col md={6}>
-                        <Card className="shadow-lg p-4 text-center">
-                            <Card.Body>
-                                <h2 className="fw-bold text-danger">Admin Access Required</h2>
-                                <p className="lead mb-4">
-                                    You need administrative permissions to access this page.
-                                </p>
-                                <p>
-                                    If you are an admin, please{' '}
-                                    <Button
-                                        variant="primary"
-                                        href="/Login-Admin"
-                                        className="text-white"
-                                    >
-                                        Log in here
-                                    </Button>
-                                    .
-                                </p>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
-    );
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { Page, Panel } from './PortalUI';
+export default function AdminError() {
+  const denied = useLocation().pathname.toLowerCase() === '/adminerror';
+  return <Page title={denied ? 'This area is for administrators.' : 'We couldn’t find that page.'} description={denied ? 'Your account does not have access to this part of the site.' : 'The link may have changed. Let’s get you back to your church community.'}><Panel className="portal-error-panel"><span aria-hidden="true">{denied ? '↗' : '404'}</span><h2>{denied ? 'Looking for something else?' : 'A fresh start.'}</h2><p>You can find events, prayer requests, and today’s scripture from the home page.</p><Link className="portal-btn" to="/">Return home →</Link></Panel></Page>;
 }
-
-export default AdminError;

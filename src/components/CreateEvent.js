@@ -1,167 +1,56 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchAllPhotos } from '../photosApi';
-import React, { useState, useEffect } from 'react';
-import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
-import Axios from 'axios';
-import '../style/CreateEvent.css';  // Adding custom styles
-
-function CreateEvent() {
-    // Form state
-    const [formData, setFormData] = useState({
-        eventTitle: "",
-        eventDate: "",
-        eventLocation: "",
-        eventDetails: "",
-        eventImage: null,
-    });
-
-    const [imagePreviews, setImagePreviews] = useState([]); // Store fetched images for display
-
-    // Fetch event images from the database
-    useEffect(() => {
-        const fetchImages = async () => {
-            try {
-                const photos = await fetchAllPhotos();
-                setImagePreviews(photos); // Assuming images data is in the response
-            } catch (error) {
-                console.error('Error fetching event images:', error);
-            }
-        };
-        fetchImages();
-    }, []);
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+import { Page, Panel, Field, Notice, Empty, api, errorText } from './PortalUI';
+export default function CreateEvent() {
+  const initial = {
+    eventTitle: '',
+    eventDate: '',
+    eventLocation: '',
+    eventDetails: '',
+    eventImage: ''
+  };
+  const [form, setForm] = useState(initial),
+    [photos, setPhotos] = useState([]),
+    [loading, setLoading] = useState(true),
+    [photoError, setPhotoError] = useState(''),
+    [busy, setBusy] = useState(false),
+    [message, setMessage] = useState(''),
+    [error, setError] = useState('');
+  useEffect(() => {
+    let active = true;
+    fetchAllPhotos().then(p => active && setPhotos(p)).catch(() => active && setPhotoError('Could not load photos. Reload this page to try again.')).finally(() => active && setLoading(false));
+    return () => {
+      active = false;
     };
-
-    // Handle image selection from database
-    const handleImageSelect = (image) => {
-        console.log(image.filename);
-        setFormData((prevData) => ({
-            ...prevData,
-            eventImage: image.filename,  // Store image filename in formData
-        }));
-    };
-
-    // Handle form submission
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        // Log formData for debugging
-        console.log("Form Data Submitted:", formData);
-
-        try {
-            const response = await Axios.post('/api/addEvent', formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (response.status === 200) {
-                alert('Event created successfully');
-                // Reset form after submission
-                setFormData({
-                    eventTitle: "",
-                    eventDate: "",
-                    eventLocation: "",
-                    eventDetails: "",
-                    eventImage: null,
-                });
-            }
-        } catch (error) {
-            console.error('Error creating event:', error);
-            alert('Failed to create event');
-        }
-    };
-
-    return (
-        <Container className="create-event-container my-5">
-            <h1 className="text-center mb-4">Create Event</h1>
-            <Row className="justify-content-center">
-                <Col md={8}>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group controlId="eventTitle" className="mb-4">
-                            <Form.Label className="fw-bold">Event Title</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter event title"
-                                name="eventTitle"  // Add the name attribute
-                                value={formData.eventTitle}
-                                onChange={handleInputChange}
-                                required
-                                className="input-field"
-                            />
-                        </Form.Group>
-
-                        <Form.Group controlId="eventDate" className="mb-4">
-                            <Form.Label className="fw-bold">Event Date</Form.Label>
-                            <Form.Control
-                                type="date"
-                                name="eventDate"  // Add the name attribute
-                                value={formData.eventDate}
-                                onChange={handleInputChange}
-                                required
-                                className="input-field"
-                            />
-                        </Form.Group>
-
-                        <Form.Group controlId="eventLocation" className="mb-4">
-                            <Form.Label className="fw-bold">Event Location</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Enter event location"
-                                name="eventLocation"  // Add the name attribute
-                                value={formData.eventLocation}
-                                onChange={handleInputChange}
-                                required
-                                className="input-field"
-                            />
-                        </Form.Group>
-
-                        <Form.Group controlId="eventDetails" className="mb-4">
-                            <Form.Label className="fw-bold">Event Details</Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={4}
-                                placeholder="Enter event details"
-                                name="eventDetails"  // Add the name attribute
-                                value={formData.eventDetails}
-                                onChange={handleInputChange}
-                                required
-                                className="input-field"
-                            />
-                        </Form.Group>
-
-                        <Form.Group controlId="eventImage" className="mb-4">
-                            <Form.Label className="fw-bold">Event Image</Form.Label>
-                            <Row>
-                                {imagePreviews.map((image, index) => (
-                                    <Col key={index} xs={6} sm={4} md={3} className="mb-3">
-                                        <Card
-                                            className={`image-preview-card ${formData.eventImage === image.filename ? 'border-primary' : ''}`}
-                                            onClick={() => handleImageSelect(image)}
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            <Card.Img
-                                                variant="top"
-                                                src={`data:image/jpeg;base64,${image.image_data}`}
-                                                alt="Event Image"
-                                                className="event-image-thumbnail"
-                                            />
-                                        </Card>
-                                    </Col>
-                                ))}
-                            </Row>
-                        </Form.Group>
-
-                        <Button variant="primary" type="submit" className="w-100 btn-lg">
-                            Create Event
-                        </Button>
-                    </Form>
-                </Col>
-            </Row>
-        </Container>
-    );
+  }, []);
+  const field = key => ({
+    value: form[key],
+    onChange: e => setForm({
+      ...form,
+      [key]: e.target.value
+    })
+  });
+  async function submit(e) {
+    e.preventDefault();
+    if (!form.eventImage) {
+      setError('Choose a cover photo before creating the event.');
+      return;
+    }
+    setBusy(true);
+    setError('');
+    try {
+      await api.post('/addEvent', form);
+      setForm(initial);
+      setMessage('Event created successfully. It is now listed in church events.');
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+  return <Page eyebrow="CHURCH ADMINISTRATION" title="Make room for connection." description="Create a gathering your church family can look forward to." action={<Link className="portal-btn secondary" to="/ViewEventsAdmin">Back to events</Link>}><form onSubmit={submit} className="portal-split"><Panel title="Event details" description="Tell your community what, when, and where."><Notice>{message}</Notice><Notice error>{error}</Notice><Field label="Event title" id="event-title" required maxLength={200} {...field('eventTitle')} /><div className="portal-form-grid"><Field label="Date & time" id="event-date" type="datetime-local" required {...field('eventDate')} /><Field label="Location" id="event-location" required maxLength={255} {...field('eventLocation')} /></div><Field as="textarea" label="What to expect" id="event-details" required rows={6} maxLength={4000} {...field('eventDetails')} /><button className="portal-btn" disabled={busy}>{busy ? 'Creating event…' : 'Publish event →'}</button></Panel><Panel title="Choose a cover photo" description="Select an existing photo from your church gallery."><Notice error>{photoError}</Notice>{loading ? <p role="status">Loading photos…</p> : photos.length ? <div className="portal-cover-grid">{photos.map(p => <button key={p.id} type="button" aria-pressed={form.eventImage === p.filename} className={form.eventImage === p.filename ? 'selected' : ''} onClick={() => setForm({
+            ...form,
+            eventImage: p.filename
+          })}><img src={`data:image/jpeg;base64,${p.image_data}`} alt={p.filename} loading="lazy" />{form.eventImage === p.filename && <span>✓ Selected</span>}</button>)}</div> : !photoError && <Empty title="Add a photo first"><Link to="/UploadPhotos">Upload a cover photo</Link> before creating your event.</Empty>}</Panel></form></Page>;
 }
-
-export default CreateEvent;

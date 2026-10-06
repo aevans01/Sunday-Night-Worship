@@ -1,114 +1,31 @@
-import React, { useState } from "react";
-import { Form, Button, Container, Card, Row, Col, Alert } from "react-bootstrap";
-import Axios from "axios";
-import "../style/CreatePrayerRequest.css"; // Ensure this file exists and has the styles defined below
-
-function CreatePrayerRequest() {
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [request, setRequest] = useState("");
-    const [user, setUser] = useState("");
-    const [successMessage, setSuccessMessage] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-
-    const handleOptionChange = (event) => {
-        setSelectedOption(event.target.value);
-    };
-
-    const post = async (e) => {
-        e.preventDefault(); // Prevent form from refreshing the page
-        console.log(request);
-        try {
-            await Axios.post(`/api/addPR`, {
-                description: request,
-                user: selectedOption === "option2" ? user : "Anonymous",
-                private: selectedOption === "option1",
-            });
-            setSuccessMessage("Your prayer request has been submitted successfully.");
-            setErrorMessage("");
-            setRequest("");
-            setUser("");
-            setSelectedOption(null);
-        } catch (err) {
-            console.error(err);
-            setErrorMessage("There was an error submitting your prayer request. Please try again.");
-            setSuccessMessage("");
-        }
-    };
-
-    return (
-        <Container className="d-flex justify-content-center align-items-center py-4">
-            <Card className="shadow p-4 w-100" style={{ maxWidth: "600px" }}>
-                <Card.Body>
-                    <Card.Title className="text-center text-primary fw-bold mb-4">
-                        Submit a Prayer Request
-                    </Card.Title>
-                    {successMessage && <Alert variant="success">{successMessage}</Alert>}
-                    {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-                    <Form onSubmit={post}>
-                        <Form.Group className="mb-3" controlId="PR">
-                            <Form.Label>Prayer Request</Form.Label>
-                            <Form.Control
-                                as="textarea"
-                                rows={4}
-                                placeholder="Type your prayer request here..."
-                                value={request}
-                                onChange={(e) => setRequest(e.target.value)}
-                                className="no-resize"
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Do you want to keep this request private?</Form.Label>
-                            <Row>
-                                <Col xs={6}>
-                                    <Form.Check
-                                        type="radio"
-                                        id="radio-yes"
-                                        value="option1"
-                                        label="Yes"
-                                        name="privacyOption"
-                                        checked={selectedOption === "option1"}
-                                        onChange={handleOptionChange}
-                                    />
-                                </Col>
-                                <Col xs={6}>
-                                    <Form.Check
-                                        type="radio"
-                                        id="radio-no"
-                                        value="option2"
-                                        label="No"
-                                        name="privacyOption"
-                                        checked={selectedOption === "option2"}
-                                        onChange={handleOptionChange}
-                                    />
-                                </Col>
-                            </Row>
-                        </Form.Group>
-                        {selectedOption === "option2" && (
-                            <Form.Group className="mb-3">
-                                <Form.Label>Your Name</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter your name"
-                                    value={user}
-                                    onChange={(e) => setUser(e.target.value)}
-                                />
-                            </Form.Group>
-                        )}
-                        <div className="text-center">
-                            <Button
-                                type="submit"
-                                variant="primary"
-                                className="fw-bold px-5"
-                            >
-                                Submit
-                            </Button>
-                        </div>
-                    </Form>
-                </Card.Body>
-            </Card>
-        </Container>
-    );
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Page, Panel, Field, Notice, api, errorText } from './PortalUI';
+export default function CreatePrayerRequest() {
+  const [description, setDescription] = useState(''),
+    [privacy, setPrivacy] = useState('public'),
+    [name, setName] = useState(''),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState(''),
+    [done, setDone] = useState(false);
+  async function submit(e) {
+    e.preventDefault();
+    setBusy(true);
+    setError('');
+    try {
+      await api.post('/addPR', {
+        description,
+        user: privacy === 'anonymous' ? 'Anonymous' : name.trim() || 'Anonymous',
+        private: false
+      });
+      setDone(true);
+      setDescription('');
+      setName('');
+    } catch (e) {
+      setError(errorText(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+  return <Page eyebrow="PRAYER & COMMUNITY" title="Let us pray with you." description="You don’t have to carry it alone. Share a request with your church family." action={<Link className="portal-btn secondary" to="/ViewPrayerRequests">View requests ↗</Link>}><div className="portal-split"><Panel title={done ? 'Your request has been shared.' : 'Share a prayer request'} description="Requests appear in the church community list. Please share only what you want others to see."><Notice error>{error}</Notice>{done ? <><Notice>Your prayer request was submitted successfully.</Notice><button className="portal-btn" onClick={() => setDone(false)}>Share another request</button></> : <form onSubmit={submit}><Field as="textarea" label="Your prayer request" id="prayer-description" required rows={6} maxLength={4000} value={description} onChange={e => setDescription(e.target.value)} placeholder="How can we pray for you?" /><fieldset className="portal-choices"><legend>How should your name appear?</legend>{[['public', 'With my name', 'Add your name to your request.'], ['anonymous', 'Anonymously', 'Share without displaying your name.']].map(([value, title, help]) => <label key={value} className={privacy === value ? 'selected' : ''}><input type="radio" name="privacy" value={value} checked={privacy === value} onChange={() => setPrivacy(value)} /><span><strong>{title}</strong><small>{help}</small></span></label>)}</fieldset>{privacy === 'public' && <Field label="Your name (optional)" id="prayer-name" maxLength={100} value={name} onChange={e => setName(e.target.value)} help="Leave blank to share anonymously." />}<button className="portal-btn" disabled={busy}>{busy ? 'Submitting…' : 'Submit prayer request →'}</button></form>}</Panel><aside className="portal-aside"><span className="portal-aside-mark" aria-hidden="true">✧</span><h2>We’re here for you.</h2><p>Our community is built on caring for one another through prayer and encouragement.</p><blockquote>“Pray without ceasing.”<cite>1 Thessalonians 5:17 · KJV</cite></blockquote></aside></div></Page>;
 }
-
-export default CreatePrayerRequest;
