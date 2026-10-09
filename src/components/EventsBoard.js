@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import { useUser } from '../UserContext';
-import { Page, Panel, Notice, Empty, useList, ListStatus, api, errorText } from './PortalUI';
+import { Page, Panel, Notice, Empty, useList, ListStatus, Confirm, api, errorText } from './PortalUI';
 function EventPhoto({
   filename
 }) {
@@ -36,7 +36,22 @@ export default function EventsBoard({
     [event, setEvent] = useState(null),
     [attendees, setAttendees] = useState([]),
     [loadingAttendees, setLoadingAttendees] = useState(false),
-    [attendeeError, setAttendeeError] = useState('');
+    [attendeeError, setAttendeeError] = useState(''),
+    [selected, setSelected] = useState(null),
+    [deleting, setDeleting] = useState(false),
+    [deleteError, setDeleteError] = useState('');
+  async function remove() {
+    if (!selected || deleting) return;
+    setDeleting(true); setDeleteError('');
+    try {
+      await api.delete(`/deleteEvent/${selected.id}`);
+      list.setItems(old => old.filter(e => e.id !== selected.id));
+      setRegistered(old => old.filter(id => id !== Number(selected.id)));
+      if (event?.id === selected.id) setEvent(null);
+      setSelected(null); setMessage('Event and its registrations deleted.');
+    } catch (e) { setDeleteError(errorText(e)); }
+    finally { setDeleting(false); }
+  }
   useEffect(() => {
     setRegistered([]);
     if (user) api.post('/getUserRegistrations', {}).then(({
@@ -84,5 +99,5 @@ export default function EventsBoard({
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric'
-              })}</p><h2>{e.Title}</h2><p className="portal-event-location">{e.Location}</p><p>{e.Details}</p><div className="portal-card-bottom">{admin ? <button className="portal-btn secondary" onClick={() => showAttendees(e)}>View attendees</button> : tab === 'upcoming' ? user ? <button className="portal-btn" disabled={busy === e.id || registered.includes(Number(e.id))} onClick={() => register(e.id)}>{registered.includes(Number(e.id)) ? '✓ Registered' : busy === e.id ? 'Registering…' : 'Register for event →'}</button> : <Link className="portal-btn secondary" to="/Login">Sign in to register</Link> : <span className="portal-tag">Past gathering</span>}</div></div></Panel>)}</div> : !list.loading && !list.error && <Empty title={tab === 'upcoming' ? 'More moments are on the way.' : 'No past gatherings in this view.'}>Check back for church events or try another search.</Empty>}</ListStatus><Modal show={!!event} onHide={() => setEvent(null)} size="lg" centered><Modal.Header closeButton><Modal.Title>{event?.Title} · Attendees</Modal.Title></Modal.Header><Modal.Body><Notice error>{attendeeError}</Notice>{loadingAttendees ? <p role="status">Loading registrations…</p> : attendees.length ? <div className="portal-table-scroll"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th></tr></thead><tbody>{attendees.map(a => <tr key={a.id}><td>{a.firstName} {a.lastName}</td><td>{a.emailAddr}</td><td>{a.phoneNum || '—'}</td></tr>)}</tbody></table></div> : !attendeeError && <Empty title="No registrations yet">Registered members will appear here.</Empty>}</Modal.Body></Modal></Page>;
+              })}</p><h2>{e.Title}</h2><p className="portal-event-location">{e.Location}</p><p>{e.Details}</p><div className="portal-card-bottom">{admin ? <><button className="portal-btn secondary" onClick={() => showAttendees(e)}>View attendees</button><button className="portal-link danger" onClick={() => {setDeleteError(''); setSelected(e);}}>Delete event</button></> : tab === 'upcoming' ? user ? <button className="portal-btn" disabled={busy === e.id || registered.includes(Number(e.id))} onClick={() => register(e.id)}>{registered.includes(Number(e.id)) ? '✓ Registered' : busy === e.id ? 'Registering…' : 'Register for event →'}</button> : <Link className="portal-btn secondary" to="/Login">Sign in to register</Link> : <span className="portal-tag">Past gathering</span>}</div></div></Panel>)}</div> : !list.loading && !list.error && <Empty title={tab === 'upcoming' ? 'More moments are on the way.' : 'No past gatherings in this view.'}>Check back for church events or try another search.</Empty>}</ListStatus><Modal show={!!event} onHide={() => setEvent(null)} size="lg" centered><Modal.Header closeButton><Modal.Title>{event?.Title} · Attendees</Modal.Title></Modal.Header><Modal.Body><Notice error>{attendeeError}</Notice>{loadingAttendees ? <p role="status">Loading registrations…</p> : attendees.length ? <div className="portal-table-scroll"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th></tr></thead><tbody>{attendees.map(a => <tr key={a.id}><td>{a.firstName} {a.lastName}</td><td>{a.emailAddr}</td><td>{a.phoneNum || '—'}</td></tr>)}</tbody></table></div> : !attendeeError && <Empty title="No registrations yet">Registered members will appear here.</Empty>}</Modal.Body></Modal><Confirm show={!!selected} title="Delete this event?" busy={deleting} onCancel={() => {if (!deleting) setSelected(null);}} onConfirm={remove}>Delete “{selected?.Title}” and all of its registrations? This cannot be undone. Uploaded photos will remain in the photo library.<Notice error>{deleteError}</Notice></Confirm></Page>;
 }
