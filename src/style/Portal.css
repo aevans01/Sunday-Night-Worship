@@ -63,3 +63,14 @@ body.portal-body .modal .portal-btn { background:#151515; border-color:#151515; 
 body.portal-body .modal .portal-btn.secondary { background:white; color:#151515!important; border-color:#d2d2cf; }
 body.portal-body .modal .portal-btn.danger { background:#a63d3d; border-color:#a63d3d; }
 @media(max-width:700px) { .portal-heading h1 { font-size:48px; } .portal-auth aside h2 { font-size:42px; } .portal-auth h1,.portal-register h1 { font-size:46px; } .portal-footer { padding:30px 20px; } }
+
+/* Forms and long content remain usable across the expanded public/admin pages. */
+.portal-panel label{display:block;margin:12px 0;font-weight:600}
+.portal-panel label input:not([type=checkbox]):not([type=radio]),.portal-panel label select{display:block;width:100%;max-width:100%;padding:10px 12px;border:1px solid var(--border);background:#fff;color:var(--ink);border-radius:2px;margin-top:6px}
+.portal-panel input[type=checkbox]{margin-right:8px;width:18px;height:18px;vertical-align:middle}
+.portal-table-scroll td small{display:block;margin-top:5px;color:var(--muted)}
+.portal-panel button,.portal-panel a{overflow-wrap:anywhere}
+.portal-panel .portal-toolbar{flex-wrap:wrap}
+.portal-site :focus-visible{outline:3px solid #737373;outline-offset:3px}
+.portal-video-grid img{aspect-ratio:16/9;object-fit:cover}
+@media(max-width:700px){.portal-panel select{font-size:16px}.portal-heading h1{overflow-wrap:anywhere}.portal-panel .portal-btn{max-width:100%;white-space:normal}}

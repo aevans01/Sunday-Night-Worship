@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+# Complete Haven Heights frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Replace your frontend project
 
-## Available Scripts
+1. Back up your current frontend repository.
+2. Extract this ZIP and open HHBC-Frontend.
+3. Copy the CONTENTS of this folder to your frontend repository ROOT. package.json, package-lock.json, netlify.toml, src, public, and scripts belong alongside each other. Do not place them inside an extra HHBC-Frontend or Frontend folder.
+4. Remove mistakenly nested frontend folders. Preserve .git when replacing a local checkout.
+5. Commit and deploy. Netlify Base directory: blank. Build command: npm run build. Publish directory: build. netlify.toml includes the build configuration.
 
-In the project directory, you can run:
+## Local use
 
-### `npm start`
+npm ci
+npm start
+npm run build
+npm test -- --watchAll=false
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+node_modules and build are generated and excluded from the archive.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Backend and SQL
 
-### `npm test`
+This is the complete FRONTEND. Keep your backend repository and database. public/_redirects forwards API requests to https://hhbc-snw-api.netlify.app. No backend secrets are included.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The earlier backend upgrades are required for their corresponding features. The team SQL is included at reference-sql/03-staff-directory.sql; run it in the API database if not already completed. Re-running preserves admin edits.
 
-### `npm run build`
+Includes all latest pages and changes: matched homepage buttons, redesigned About, complete staff cards with Jimmy Binns, separate Custodian/Grounds Keeper positions, admin staff editing, and admin prayer assignment.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Verified: production compilation and 34 frontend tests. Live deployment and desktop/mobile visual checks remain pending.
