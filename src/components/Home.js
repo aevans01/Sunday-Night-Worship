@@ -1,5 +1,6 @@
 import Carousel from 'react-bootstrap/Carousel';
 import { Link } from 'react-router-dom';
+import HomeHighlights from './HomeHighlights';
 import DailyBibleVerse from './DailyBibleVerse';
 import {churchInfo as church} from './churchInfo';
 import '../style/Home.css';
@@ -31,7 +32,7 @@ export default function Home() {
           <h1 id="hh-welcome">Find your place.<br /><span>Grow in faith.</span></h1>
           <p className="hh-intro">Welcome to Haven Heights. Join us as we grow in faith, serve our community, and experience God’s love together.</p>
           <div className="hh-actions">
-            <Link className="hh-button hh-primary" to="/PlanVisit">Plan your visit <span aria-hidden="true">↗</span></Link><a className="hh-button hh-secondary" href={church.directions} target="_blank" rel="noopener noreferrer">Get directions ↗</a><Link className="hh-button hh-secondary" to="/CreatePrayerRequest">Request prayer</Link>
+            <Link className="hh-button hh-primary" to="/PlanVisit">Plan your visit <span aria-hidden="true">↗</span></Link><a className="hh-button hh-primary" href={church.directions} target="_blank" rel="noopener noreferrer">Get directions ↗</a><Link className="hh-button hh-primary" to="/CreatePrayerRequest">Request prayer</Link>
             <a className="hh-text-link" href="#daily-verse">Today’s scripture <span aria-hidden="true">↓</span></a>
           </div>
         </div>
@@ -43,7 +44,7 @@ export default function Home() {
         <div className="hh-schedule"><h3>Wednesday</h3><dl><div><dt>Prayer Meeting</dt><dd>6:30 PM</dd></div></dl><Link className="hh-text-link" to="/Events">View church events <span aria-hidden="true">↗</span></Link></div>
       </section>
 
-      <section className="hh-connect" aria-labelledby="connect-title"><div className="hh-shell"><p className="hh-eyebrow">LIFE AT HAVEN HEIGHTS</p><h2 id="connect-title">Get connected.</h2><p className="hh-connect-intro">There’s more to church than Sunday. Find your next step.</p><div className="hh-connect-grid"><Link to="/Events" className="hh-connect-card"><img src={GroupPhoto} alt="Our church community together" loading="lazy"/><div><h3>Gather together</h3><span>Explore church events ↗</span></div></Link><Link to="/ViewPrayerRequests" className="hh-connect-card"><img src={PrayerPhoto} alt="Church members praying" loading="lazy"/><div><h3>Pray together</h3><span>Connect through prayer ↗</span></div></Link><Link to="/PhotoAlbum" className="hh-connect-card"><img src={Camp} alt="Youth group at camp" loading="lazy"/><div><h3>Life together</h3><span>See our community ↗</span></div></Link></div></div></section><div className="hh-shell" id="daily-verse"><DailyBibleVerse /></div>
+      <section className="hh-connect" aria-labelledby="connect-title"><div className="hh-shell"><p className="hh-eyebrow">LIFE AT HAVEN HEIGHTS</p><h2 id="connect-title">Get connected.</h2><p className="hh-connect-intro">There’s more to church than Sunday. Find your next step.</p><div className="hh-connect-grid"><Link to="/Events" className="hh-connect-card"><img src={GroupPhoto} alt="Our church community together" loading="lazy"/><div><h3>Gather together</h3><span>Explore church events ↗</span></div></Link><Link to="/ViewPrayerRequests" className="hh-connect-card"><img src={PrayerPhoto} alt="Church members praying" loading="lazy"/><div><h3>Pray together</h3><span>Connect through prayer ↗</span></div></Link><Link to="/PhotoAlbum" className="hh-connect-card"><img src={Camp} alt="Youth group at camp" loading="lazy"/><div><h3>Life together</h3><span>See our community ↗</span></div></Link></div></div></section><HomeHighlights/><div className="hh-shell" id="daily-verse"><DailyBibleVerse /></div>
 
       <section className="hh-shell hh-community" aria-labelledby="hh-community-title">
         <div className="hh-section-heading"><div><p className="hh-eyebrow">LIFE AT HAVEN HEIGHTS</p><h2 id="hh-community-title">Faith. Friendship. Community.</h2></div><Link className="hh-text-link" to="/PhotoAlbum">Explore our photo album <span aria-hidden="true">↗</span></Link></div>
