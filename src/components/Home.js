@@ -1,6 +1,7 @@
 import Carousel from 'react-bootstrap/Carousel';
 import { Link } from 'react-router-dom';
 import DailyBibleVerse from './DailyBibleVerse';
+import {churchInfo as church} from './churchInfo';
 import '../style/Home.css';
 import Camp from '../images/YouthCamp2025.jpg';
 import PrayerPhoto from '../images/YouthPraying.jpg';
@@ -30,7 +31,7 @@ export default function Home() {
           <h1 id="hh-welcome">Find your place.<br /><span>Grow in faith.</span></h1>
           <p className="hh-intro">Welcome to Haven Heights. Join us as we grow in faith, serve our community, and experience God’s love together.</p>
           <div className="hh-actions">
-            <a className="hh-button hh-primary" href="#service-times">Plan your visit <span aria-hidden="true">↗</span></a>
+            <Link className="hh-button hh-primary" to="/PlanVisit">Plan your visit <span aria-hidden="true">↗</span></Link><a className="hh-button hh-secondary" href={church.directions} target="_blank" rel="noopener noreferrer">Get directions ↗</a><Link className="hh-button hh-secondary" to="/CreatePrayerRequest">Request prayer</Link>
             <a className="hh-text-link" href="#daily-verse">Today’s scripture <span aria-hidden="true">↓</span></a>
           </div>
         </div>

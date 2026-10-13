@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Page, Panel, Notice, Confirm, api, errorText } from './PortalUI';
-const sections = [['01', 'Songs', 'Review the music shared by your community.', '/ViewSongsAdmin', 'Manage songs'], ['02', 'Prayer requests', 'Care for community prayer requests.', '/ViewPRAdmin', 'Review requests'], ['03', 'Members', 'Keep account details and roles up to date.', '/ViewUsersAdmin', 'Manage members'], ['04', 'Events', 'Plan gatherings and review registrations.', '/ViewEventsAdmin', 'Manage events']];
+const sections = [['05', 'Prayer follow-up', 'Private contact requests, assignments, and notification status.', '/PrayerFollowups', 'Follow up'],['01', 'Songs', 'Review the music shared by your community.', '/ViewSongsAdmin', 'Manage songs'], ['02', 'Prayer requests', 'Care for community prayer requests.', '/ViewPRAdmin', 'Review requests'], ['03', 'Members', 'Keep account details and roles up to date.', '/ViewUsersAdmin', 'Manage members'], ['04', 'Events', 'Plan gatherings and review registrations.', '/ViewEventsAdmin', 'Manage events']];
 export default function AdminDashboard() {
   const [show, setShow] = useState(false),
     [busy, setBusy] = useState(false),

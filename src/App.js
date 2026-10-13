@@ -23,12 +23,15 @@ import ViewPRAdmin from './components/ViewPRAdmin';
 import ViewUsersAdmin from './components/ViewUsersAdmin';
 import ViewEventsAdmin from './components/ViewEventsAdmin';
 import ViewAttendees from './components/ViewAttendees';
+import PlanVisit from './components/PlanVisit';
+import About from './components/About';
+import PrayerFollowups from './components/PrayerFollowups';
 import AdminError from './components/AdminError';
 const admin = Component => <ProtectedRoute roles={['1']}><Component /></ProtectedRoute>;
 const member = Component => <ProtectedRoute roles={['0', '1']}><Component /></ProtectedRoute>;
 export default function App() {
   return <UserProvider><Layout><Routes>
-        <Route path="/" element={<Home />} /><Route path="/Login" element={<Login />} /><Route path="/Register" element={<Register />} />
+        <Route path="/" element={<Home />} /><Route path="/PlanVisit" element={<PlanVisit />} /><Route path="/About" element={<About />} /><Route path="/PrayerFollowups" element={admin(PrayerFollowups)} /><Route path="/Login" element={<Login />} /><Route path="/Register" element={<Register />} />
         <Route path="/ViewProfile" element={member(ViewProfile)} /><Route path="/EditProfile" element={member(EditProfile)} />
         <Route path="/ViewPrayerRequests" element={<ViewPrayerRequests />} /><Route path="/CreatePrayerRequest" element={<CreatePrayerRequest />} />
         <Route path="/PhotoAlbum" element={<PhotoAlbum />} /><Route path="/UploadPhotos" element={member(PhotoUpload)} /><Route path="/Events" element={<Events />} /><Route path="/SongPicker" element={<SongPicker />} />

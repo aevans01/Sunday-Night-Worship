@@ -120,9 +120,10 @@ export function Confirm({
   children,
   onCancel,
   onConfirm,
+  confirmLabel = 'Confirm deletion',
   busy
 }) {
-  return <Modal show={show} onHide={busy ? undefined : onCancel} centered><Modal.Header><Modal.Title>{title}</Modal.Title></Modal.Header><Modal.Body>{children}</Modal.Body><Modal.Footer><button className="portal-btn secondary" disabled={busy} onClick={onCancel}>Cancel</button><button className="portal-btn danger" disabled={busy} onClick={onConfirm}>{busy ? 'Please wait…' : 'Confirm deletion'}</button></Modal.Footer></Modal>;
+  return <Modal show={show} onHide={busy ? undefined : onCancel} centered><Modal.Header><Modal.Title>{title}</Modal.Title></Modal.Header><Modal.Body>{children}</Modal.Body><Modal.Footer><button className="portal-btn secondary" disabled={busy} onClick={onCancel}>Cancel</button><button className="portal-btn danger" disabled={busy} onClick={onConfirm}>{busy ? 'Please wait…' : confirmLabel}</button></Modal.Footer></Modal>;
 }
 export function Avatar({
   name = ''
