@@ -32,7 +32,7 @@ export default function Home() {
           <h1 id="hh-welcome">Find your place.<br /><span>Grow in faith.</span></h1>
           <p className="hh-intro">Welcome to Haven Heights. Join us as we grow in faith, serve our community, and experience God’s love together.</p>
           <div className="hh-actions">
-            <Link className="hh-button hh-primary" to="/PlanVisit">Plan your visit <span aria-hidden="true">↗</span></Link><a className="hh-button hh-secondary" href={church.directions} target="_blank" rel="noopener noreferrer">Get directions ↗</a><Link className="hh-button hh-secondary" to="/CreatePrayerRequest">Request prayer</Link>
+            <Link className="hh-button hh-primary" to="/PlanVisit">Plan your visit <span aria-hidden="true">↗</span></Link><a className="hh-button hh-primary" href={church.directions} target="_blank" rel="noopener noreferrer">Get directions ↗</a><Link className="hh-button hh-primary" to="/CreatePrayerRequest">Request prayer</Link>
             <a className="hh-text-link" href="#daily-verse">Today’s scripture <span aria-hidden="true">↓</span></a>
           </div>
         </div>

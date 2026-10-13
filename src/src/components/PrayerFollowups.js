@@ -12,16 +12,17 @@ import {
 } from "./PortalUI";
 export default function PrayerFollowups() {
   const list = useList("/prayerFollowups");
+  const admins = useList("/prayerFollowups/admins");
   const [filter, setFilter] = useState("all"),
     [busy, setBusy] = useState(null),
     [error, setError] = useState(""),
     [retry, setRetry] = useState(null),
     [message, setMessage] = useState("");
-  async function update(row, status) {
+  async function update(row, status, assignedAdmin) {
     setBusy(row.id);
     setError("");
     try {
-      await api.put(`/prayerFollowups/${row.id}`, { status });
+      await api.put(`/prayerFollowups/${row.id}`, { status, ...(assignedAdmin !== undefined ? {assignedAdmin} : {}) });
       await list.reload();
       setMessage("Follow-up status saved.");
     } catch (e) {
@@ -101,14 +102,24 @@ export default function PrayerFollowups() {
                     aria-label={`Status for ${r.name}`}
                     value={r.careStatus}
                     disabled={busy !== null}
-                    onChange={(e) => update(r, e.target.value)}
+                    onChange={(e) => update(r, e.target.value, e.target.value === "assigned" && r.assignedAdmin ? Number(r.assignedAdmin) : undefined)}
                   >
                     <option value="new">New / unassigned</option>
-                    <option value="assigned">Assign to me</option>
+                    <option value="assigned">{r.assignedAdmin ? "Assigned" : "Assign to me"}</option>
                     <option value="contacted">Contacted</option>
                     <option value="completed">Completed</option>
                   </select>
                 </label>
+                <div className="portal-field">
+                  <label htmlFor={`prayer-assignee-${r.id}`}>Assign to administrator</label>
+                  <select id={`prayer-assignee-${r.id}`} aria-label={`Assign administrator for ${r.name}`} value={r.assignedAdmin || ""} disabled={busy !== null || admins.loading || !!admins.error} onChange={e => update(r, e.target.value ? "assigned" : "new", e.target.value ? Number(e.target.value) : undefined)}>
+                    <option value="">Unassigned</option>
+                    {r.assignedAdmin && !admins.items.some(a => Number(a.id) === Number(r.assignedAdmin)) && <option value={r.assignedAdmin}>{r.assignedName || "Previous administrator"} (no longer an admin)</option>}
+                    {admins.items.map(a => <option key={a.id} value={a.id}>{a.name || a.username || `Administrator ${a.id}`}</option>)}
+                  </select>
+                  {admins.loading && <small>Loading administrators…</small>}
+                  {admins.error && <Notice error>Could not load administrators. <button className="portal-link" onClick={admins.reload}>Try again</button></Notice>}
+                </div>
                 {Number(r.failedEmails) > 0 && (
                   <button
                     className="portal-btn secondary"

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 const pages = {
+  "/Staff": ["Our Team | Haven Heights", "Meet the ministry and support team at Haven Heights Baptist Church in Fort Smith."],
   "/Privacy": [
     "Privacy & Contact Information | Haven Heights",
     "How public submissions, private contact details, account information, and external services are used.",

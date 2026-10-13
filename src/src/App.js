@@ -25,6 +25,8 @@ import ViewEventsAdmin from "./components/ViewEventsAdmin";
 import ViewAttendees from "./components/ViewAttendees";
 import PlanVisit from "./components/PlanVisit";
 import About from "./components/About";
+import Staff from "./components/Staff";
+import ManageStaff from "./components/ManageStaff";
 import PrayerFollowups from "./components/PrayerFollowups";
 import Sermons from "./components/Sermons";
 import ManageSermons from "./components/ManageSermons";
@@ -57,6 +59,8 @@ export default function App() {
             <Route path="/Privacy" element={<Privacy />} />
             <Route path="/PlanVisit" element={<PlanVisit />} />
             <Route path="/About" element={<About />} />
+            <Route path="/Staff" element={<Staff />} />
+            <Route path="/ManageStaff" element={admin(ManageStaff)} />
             <Route path="/PrayerFollowups" element={admin(PrayerFollowups)} />
             <Route path="/Login" element={<Login />} />
             <Route path="/Register" element={<Register />} />
