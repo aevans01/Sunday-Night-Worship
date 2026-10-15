@@ -1,0 +1,28 @@
+/* Event cards have their own spacing so shared cards remain unchanged. */
+.portal-event-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;align-items:stretch}
+.portal-event-grid .portal-event-card{padding:0;min-width:0;margin:0}
+.portal-event-grid .portal-event-body{padding:32px;gap:16px;min-width:0}
+.portal-event-grid .portal-event-body>p,.portal-event-grid .portal-event-body>h2{margin:0}
+.portal-event-grid .portal-event-body>.portal-eyebrow{font-size:12px;line-height:1.5;letter-spacing:1.4px}
+.portal-event-grid .portal-event-body>h2{font-size:30px;line-height:1.15}
+.portal-event-grid .portal-event-body>.portal-tag{align-self:flex-start;padding:6px 12px;line-height:1.5}
+.portal-event-grid .portal-event-attendance{padding-bottom:18px;border-bottom:1px solid var(--border,#ded9d0);line-height:1.6}
+.portal-event-grid .portal-event-attendance small{font-size:13px}
+.portal-event-facts{display:grid;gap:16px;margin:0}
+.portal-event-facts>div{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;align-items:baseline}
+.portal-event-facts dt{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted,#616161)}
+.portal-event-facts dd{margin:0;font-size:14px;line-height:1.7;overflow-wrap:anywhere}
+.portal-event-facts dd span{font-size:12px;color:var(--muted,#616161);display:inline-block;margin-left:6px}
+.portal-event-grid .portal-event-description{line-height:1.9;padding-top:4px;padding-bottom:8px}
+.portal-event-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:auto;padding-top:24px;border-top:1px solid var(--border,#ded9d0)}
+.portal-event-actions>.portal-btn,.portal-event-actions>.portal-link{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;min-width:0;padding:12px 14px;margin:0;text-align:center;line-height:1.5;white-space:normal;overflow-wrap:anywhere;font-size:12px;text-decoration:none}
+.portal-event-actions>.portal-link{border:1px solid var(--border,#ded9d0);background:#fff;text-transform:uppercase;letter-spacing:.6px;font-weight:600;cursor:pointer}
+.portal-event-actions>.portal-link:hover{background:#f4f2ed;text-decoration:none}
+.portal-event-actions>.portal-link.danger{color:#963737;border-color:#e4cccc}
+.portal-event-actions>.portal-link.danger:hover{background:#fbefef}
+.portal-event-actions>.portal-link:last-child{grid-column:1/-1}
+.portal-event-actions:not(.is-admin)>.portal-btn{grid-column:1/-1}
+.portal-event-actions>.portal-tag{align-self:center;justify-self:start;line-height:1.5}
+.portal-event-actions>:focus-visible{outline:3px solid #555c50;outline-offset:3px}
+@media(max-width:850px){.portal-event-grid{grid-template-columns:1fr;gap:24px}}
+@media(max-width:480px){.portal-event-grid .portal-event-body{padding:24px;gap:16px}.portal-event-grid .portal-event-body>h2{font-size:27px}.portal-event-actions{grid-template-columns:1fr;gap:12px}.portal-event-facts>div{grid-template-columns:1fr;gap:4px}.portal-event-facts dd span{margin-left:0;display:block}.portal-event-grid .portal-event-image,.portal-event-grid .portal-event-placeholder{height:190px}}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { downloadCalendar } from "./eventCalendar";
+import "../style/EventCards.css";
 import { useUser } from "../UserContext";
 import {
   Page,
@@ -194,16 +195,18 @@ export default function EventsBoard({ admin = false }) {
                   {e.status === "cancelled" && (
                     <p className="portal-tag">Cancelled</p>
                   )}
-                  <p>
+                  <p className="portal-event-attendance">
                     <small>
                       {e.registrationCount || 0} registered
-                      {e.capacity ? ` · ${e.capacity} places total` : null} ·
-                      Church time (Central)
+                      {e.capacity ? ` · ${e.capacity} places total` : null}
                     </small>
                   </p>
-                  <p className="portal-event-location">{e.Location}</p>
-                  <p>{e.Details}</p>
-                  <div className="portal-card-bottom">
+                  <dl className="portal-event-facts">
+                    <div><dt>When</dt><dd>{new Date(e.Date).toLocaleTimeString("en-US", {hour: "numeric", minute: "2-digit"})} <span>Central time</span></dd></div>
+                    <div><dt>Where</dt><dd>{e.Location}</dd></div>
+                  </dl>
+                  <p className="portal-event-description">{e.Details}</p>
+                  <div className={`portal-event-actions${admin ? " is-admin" : ""}`}>
                     {admin ? (
                       <>
                         <Link className="portal-link" to={`/EditEvent/${e.id}`}>
