@@ -9,27 +9,7 @@ export default function SongPicker() {
     [error, setError] = useState(""),
     [message, setMessage] = useState(""),
     [adding, setAdding] = useState(null),
-    [added, setAdded] = useState([]),
-    [titles, setTitles] = useState({}),
-    [names, setNames] = useState({}),
-    [artists, setArtists] = useState({}),
-    [duplicate, setDuplicate] = useState(null);
-  function songTitle(v) {
-    // Preserve the title when Artist/Song order is unknown. Do not guess that
-    // the final segment is the song; that was storing artist-only names.
-    return (
-      titles[v.id.videoId] ??
-      v.snippet.title
-        .replace(/\s*\([^)]*(?:official|lyrics|audio|video)[^)]*\)/gi, "")
-        .replace(
-          /\b(?:official\s+)?(?:music\s+video|lyric\s+video|lyrics\s+video|official\s+video|official\s+audio)\b/gi,
-          "",
-        )
-        .trim()
-        .slice(0, 200)
-    );
-  }
-
+    [added, setAdded] = useState([]);
   async function search(e) {
     e.preventDefault();
     if (!q.trim()) return;
@@ -51,23 +31,14 @@ export default function SongPicker() {
     }
   }
   async function add(v) {
-    if (!names[v.id.videoId]?.trim()) {
-      setError(
-        "Enter the actual song name (without the artist or video labels) before adding it.",
-      );
-      return;
-    }
     setAdding(v.id.videoId);
-    setDuplicate(null);
     setMessage("");
     setError("");
     try {
       await api.post("/addSongs", {
         VideoSource: v.id.videoId,
-        SongName: names[v.id.videoId].trim(),
-        Artist: artists[v.id.videoId] || "",
         VideoTitle: v.snippet.title,
-        VideoTitleShortened: songTitle(v).trim(),
+        VideoTitleShortened: v.snippet.title.slice(0, 200),
         VideoDescription: v.snippet.description,
         VideoImage: v.snippet.thumbnails.medium.url,
       });
@@ -75,8 +46,6 @@ export default function SongPicker() {
       setMessage("Song added to the church song list.");
     } catch (e) {
       setError(errorText(e));
-      if (e.response?.data?.code === "SONG_DUPLICATE")
-        setDuplicate(e.response.data.existing);
     } finally {
       setAdding(null);
     }
@@ -107,20 +76,6 @@ export default function SongPicker() {
       </Panel>
       <Notice>{message}</Notice>
       <Notice error>{error}</Notice>
-      {duplicate && (
-        <Panel>
-          <p>
-            Already on the song list: <strong>{duplicate.VideoTitle}</strong>
-          </p>
-          <a
-            href={`https://www.youtube.com/watch?v=${encodeURIComponent(duplicate.VideoSource)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Watch the existing video →
-          </a>
-        </Panel>
-      )}
       {loading ? (
         <p className="portal-loading" role="status">
           Finding your music…
@@ -145,57 +100,6 @@ export default function SongPicker() {
                 <div>
                   <small>{v.snippet.channelTitle}</small>
                   <h2>{v.snippet.title}</h2>
-                  <div>
-                    <label htmlFor={`song-name-${v.id.videoId}`}>
-                      Song name (required)
-                    </label>
-                    <input
-                      id={`song-name-${v.id.videoId}`}
-                      value={names[v.id.videoId] || ""}
-                      maxLength={200}
-                      onChange={(e) =>
-                        setNames((old) => ({
-                          ...old,
-                          [v.id.videoId]: e.target.value,
-                        }))
-                      }
-                      placeholder="Example: Man of Sorrows"
-                    />
-                    <label htmlFor={`artist-${v.id.videoId}`}>
-                      Artist (optional)
-                    </label>
-                    <input
-                      id={`artist-${v.id.videoId}`}
-                      value={artists[v.id.videoId] || ""}
-                      maxLength={200}
-                      onChange={(e) =>
-                        setArtists((old) => ({
-                          ...old,
-                          [v.id.videoId]: e.target.value,
-                        }))
-                      }
-                    />
-                    <label htmlFor={`title-${v.id.videoId}`}>
-                      Song title (check before adding)
-                    </label>
-                    <input
-                      id={`title-${v.id.videoId}`}
-                      value={songTitle(v)}
-                      maxLength={200}
-                      onChange={(e) =>
-                        setTitles((old) => ({
-                          ...old,
-                          [v.id.videoId]: e.target.value,
-                        }))
-                      }
-                    />
-                    <p>
-                      <small>
-                        Enter the song name explicitly. Different uploads of the
-                        same named song share one entry, regardless of artist.
-                      </small>
-                    </p>
-                  </div>
                   <button
                     className="portal-btn secondary wide"
                     disabled={adding !== null || added.includes(v.id.videoId)}
