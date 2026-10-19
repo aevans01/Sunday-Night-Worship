@@ -40,7 +40,8 @@
     "url": "^0.11.3",
     "util": "^0.12.5",
     "web-vitals": "^2.1.4",
-    "youtube-api": "^3.0.1"
+    "youtube-api": "^3.0.1",
+    "heic-to": "1.6.6"
   },
   "scripts": {
     "start": "react-scripts start",
